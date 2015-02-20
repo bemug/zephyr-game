@@ -81,7 +81,7 @@ void Game::update(sf::Time deltaTime)
 		movement.x -= 1.f;
 	if (mIsMovingRight)
 		movement.x += 1.f;
-	mPlayer.move(movement * deltaTime.asSeconds());
+	mPlayer.move(movement * (float)deltaTime.asMilliseconds());
 }
 
 void Game::render()
