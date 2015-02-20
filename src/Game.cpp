@@ -30,10 +30,19 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 
 void Game::run()
 {
+	sf::Clock clock;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+	sf::Time TimePerFrame = sf::seconds(1.f / 60.f);
 	while (mWindow.isOpen())
 	{
 		processEvents();
-		update();
+		timeSinceLastUpdate += clock.restart();
+		while (timeSinceLastUpdate > TimePerFrame)
+		{
+			timeSinceLastUpdate -= TimePerFrame;
+			processEvents();
+			update(TimePerFrame);
+		}
 		render();
 	}
 }
@@ -58,7 +67,7 @@ void Game::processEvents()
 	}
 }
 
-void Game::update()
+void Game::update(sf::Time deltaTime)
 {
 	sf::Vector2f movement(0.f, 0.f);
 	if (mIsMovingUp)
@@ -69,7 +78,7 @@ void Game::update()
 		movement.x -= 1.f;
 	if (mIsMovingRight)
 		movement.x += 1.f;
-	mPlayer.move(movement);
+	mPlayer.move(movement * deltaTime.asSeconds());
 }
 
 void Game::render()
