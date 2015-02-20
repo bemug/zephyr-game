@@ -11,9 +11,12 @@ Game::Game()
 	, mIsMovingLeft(false)
 	, mIsMovingRight(false)
 {
-	mPlayer.setRadius(40.f);
+	if (!mTexture.loadFromFile("media/ship.gif"))
+	{
+		// Handle loading error
+	}
+	mPlayer.setTexture(mTexture);
 	mPlayer.setPosition(100.f, 100.f);
-	mPlayer.setFillColor(sf::Color::Cyan);
 }
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)

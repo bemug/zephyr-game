@@ -16,7 +16,8 @@ class Game
 		void render();
 	private:
 		sf::RenderWindow mWindow;
-		sf::CircleShape mPlayer;
+		sf::Texture mTexture;
+		sf::Sprite mPlayer;
 		bool mIsMovingUp, mIsMovingDown, mIsMovingLeft, mIsMovingRight;
 };
 
