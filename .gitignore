@@ -1,0 +1,10 @@
+#Ninja
+.ninja*
+*.ninja
+
+#CMake
+CMake*
+cmake_install.cmake
+
+#Executable
+zephyr
