@@ -4,6 +4,8 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+#include "TextureHolder.h"
+
 class Game
 {
 	public:
@@ -24,6 +26,7 @@ class Game
 		sf::Texture mTexture;
 		sf::Sprite mPlayer;
 		bool mIsMovingUp, mIsMovingDown, mIsMovingLeft, mIsMovingRight;
+		TextureHolder mTextures;
 };
 
 #endif

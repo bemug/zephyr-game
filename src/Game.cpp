@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "Game.h"
+#include "TextureHolder.h"
 
 Game::Game()
 	: mWindow(sf::VideoMode(640, 480), "Zephyr")
@@ -13,13 +14,11 @@ Game::Game()
 	, mIsMovingRight(false)
 	, mFps(-1)
 	, mFpsText()
-	, mFpsFont()
+	, mTextures()
 {
-	if (!mTexture.loadFromFile("media/ship.gif"))
-	{
-		// Handle loading error
-	}
-	mPlayer.setTexture(mTexture);
+	mTextures.load(Textures::Airplane, "media/ship.gif");
+	mPlayer.setTexture(mTextures.get(Textures::Airplane));
+
 	mPlayer.setPosition(100.f, 100.f);
 	mFpsText.setString("");
 	if (!mFpsFont.loadFromFile("media/UbuntuMono-R.ttf")) {

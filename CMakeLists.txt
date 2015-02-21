@@ -8,6 +8,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "")
 endif()
 # (you can also set it on the command line: -D CMAKE_BUILD_TYPE=Release)
 
+set(CMAKE_CXX_FLAGS "-std=c++11")
+
 # Set version information in a config.h file
 set(VERSION_MAJOR 1)
 set(VERSION_MINOR 0)
