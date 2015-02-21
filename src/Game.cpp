@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <sstream>
 
 #include "Game.h"
 
@@ -10,6 +11,9 @@ Game::Game()
 	, mIsMovingDown(false)
 	, mIsMovingLeft(false)
 	, mIsMovingRight(false)
+	, mFps(-1)
+	, mFpsText()
+	, mFpsFont()
 {
 	if (!mTexture.loadFromFile("media/ship.gif"))
 	{
@@ -17,6 +21,15 @@ Game::Game()
 	}
 	mPlayer.setTexture(mTexture);
 	mPlayer.setPosition(100.f, 100.f);
+	mFpsText.setString("");
+	if (!mFpsFont.loadFromFile("media/UbuntuMono-R.ttf")) {
+		//Error handling
+		std::cout << "Error loading font" << std::endl;
+	}
+	mFpsText.setFont(mFpsFont);
+	mFpsText.setPosition(2,0);
+	mFpsText.setCharacterSize(12); // in pixels, not points!
+	mFpsText.setColor(sf::Color::White);
 }
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
@@ -34,21 +47,28 @@ void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
 void Game::run()
 {
 	sf::Clock clock;
-	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	sf::Time TimePerFrame = sf::seconds(1.f / 60.f);
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	while (mWindow.isOpen())
 	{
-		processEvents();
-		timeSinceLastUpdate += clock.restart();
+		sf::Time elapsedTime = clock.restart();
+		timeSinceLastUpdate += elapsedTime;
 		while (timeSinceLastUpdate > TimePerFrame)
 		{
 			timeSinceLastUpdate -= TimePerFrame;
 			processEvents();
 			update(TimePerFrame);
 		}
+		updateFps(elapsedTime);
 		render();
 	}
 }
+
+void Game::updateFps(sf::Time elapsedTime)
+{
+	mFps = 1/elapsedTime.asSeconds();
+}
+
 
 void Game::processEvents()
 {
@@ -84,9 +104,17 @@ void Game::update(sf::Time deltaTime)
 	mPlayer.move(movement * (float)deltaTime.asMilliseconds());
 }
 
+void Game::displayFps() {
+	std::ostringstream oss;
+	oss << "fps: " << mFps;
+	mFpsText.setString(oss.str());
+}
+
 void Game::render()
 {
 	mWindow.clear();
 	mWindow.draw(mPlayer);
+	displayFps();
+	mWindow.draw(mFpsText);
 	mWindow.display();
 }
