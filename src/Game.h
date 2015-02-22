@@ -4,7 +4,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#include "TextureHolder.h"
+#include "ResourceHolder.h"
 
 class Game
 {
@@ -26,7 +26,7 @@ class Game
 		sf::Texture mTexture;
 		sf::Sprite mPlayer;
 		bool mIsMovingUp, mIsMovingDown, mIsMovingLeft, mIsMovingRight;
-		TextureHolder mTextures;
+		ResourceHolder<sf::Texture, Textures::ID> mTextures;
 };
 
 #endif

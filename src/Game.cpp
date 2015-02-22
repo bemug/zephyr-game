@@ -3,7 +3,7 @@
 #include <sstream>
 
 #include "Game.h"
-#include "TextureHolder.h"
+#include "ResourceHolder.h"
 
 Game::Game()
 	: mWindow(sf::VideoMode(640, 480), "Zephyr")
