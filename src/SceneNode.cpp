@@ -1,3 +1,6 @@
+#include <cassert>
+#include <algorithm>
+
 #include "SceneNode.hpp"
 
 void SceneNode::attachChild(SceneNode::Ptr child)

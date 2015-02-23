@@ -1,6 +1,9 @@
 #ifndef SCENE_NODE_H
 #define SCENE_NODE_H
 
+#include <memory>
+#include <vector>
+
 class SceneNode
 {
 	public:
