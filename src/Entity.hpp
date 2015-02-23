@@ -1,4 +1,5 @@
-#include <Vector2.hpp>
+#ifndef ENTITY_H
+#define ENTITY_H
 
 class Entity
 {
@@ -10,3 +11,5 @@ class Entity
 	private:
 		sf::Vector2f mVelocity;
 };
+
+#endif
