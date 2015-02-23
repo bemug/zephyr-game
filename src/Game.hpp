@@ -4,7 +4,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#include "ResourceHolder.h"
+#include "ResourceHolder.hpp"
 
 class Game
 {

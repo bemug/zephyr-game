@@ -2,8 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <sstream>
 
-#include "Game.h"
-#include "ResourceHolder.h"
+#include "Game.hpp"
+#include "ResourceHolder.hpp"
 
 Game::Game()
 	: mWindow(sf::VideoMode(640, 480), "Zephyr")
