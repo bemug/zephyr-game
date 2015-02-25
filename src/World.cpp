@@ -17,7 +17,7 @@ World::World(sf::RenderWindow& window)
 void World::loadTextures() {
 	mTextures.load(Textures::Eagle, "media/ship.gif");
 	mTextures.load(Textures::Raptor, "media/ship.gif");
-	mTextures.load(Textures::Desert, "media/ship.gif");
+	mTextures.load(Textures::Desert, "media/desert.jpg");
 }
 
 void World::buildScene() {
