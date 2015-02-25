@@ -99,6 +99,7 @@ void Game::update(sf::Time deltaTime)
 		movement.x += 1.f;
 	mPlayer.move(movement * (float)deltaTime.asMilliseconds());
 	*/
+	mWorld.update(deltaTime);
 }
 
 void Game::displayFps() {
