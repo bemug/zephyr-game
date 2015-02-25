@@ -10,8 +10,14 @@ int main(int argc, char* argv[]) {
 
 	/* Display the app version provided by cmake */
 	cout << "Version " << VERSION_MAJOR << "." << VERSION_MINOR << endl;
-
-	Game game;
-	game.run();
+	try
+	{
+		Game game;
+		game.run();
+	}
+	catch (std::exception& e)
+	{
+		std::cout << "\nEXCEPTION: " << e.what() << std::endl;
+	}
 
 }

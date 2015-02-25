@@ -7,19 +7,14 @@
 
 Game::Game()
 	: mWindow(sf::VideoMode(640, 480), "Zephyr")
-	, mPlayer()
+	, mWorld(mWindow)
 	, mIsMovingUp(false)
 	, mIsMovingDown(false)
 	, mIsMovingLeft(false)
 	, mIsMovingRight(false)
 	, mFps(-1)
 	, mFpsText()
-	, mTextures()
 {
-	mTextures.load(Textures::Airplane, "media/ship.gif");
-	mPlayer.setTexture(mTextures.get(Textures::Airplane));
-
-	mPlayer.setPosition(100.f, 100.f);
 	mFpsText.setString("");
 	if (!mFpsFont.loadFromFile("media/UbuntuMono-R.ttf")) {
 		//Error handling
@@ -61,6 +56,7 @@ void Game::run()
 		updateFps(elapsedTime);
 		render();
 	}
+
 }
 
 void Game::updateFps(sf::Time elapsedTime)
@@ -91,6 +87,7 @@ void Game::processEvents()
 
 void Game::update(sf::Time deltaTime)
 {
+	/*
 	sf::Vector2f movement(0.f, 0.f);
 	if (mIsMovingUp)
 		movement.y -= 1.f;
@@ -101,6 +98,7 @@ void Game::update(sf::Time deltaTime)
 	if (mIsMovingRight)
 		movement.x += 1.f;
 	mPlayer.move(movement * (float)deltaTime.asMilliseconds());
+	*/
 }
 
 void Game::displayFps() {
@@ -112,8 +110,8 @@ void Game::displayFps() {
 void Game::render()
 {
 	mWindow.clear();
-	mWindow.draw(mPlayer);
+	mWorld.draw();
+	mWindow.setView(mWindow.getDefaultView());
 	displayFps();
-	mWindow.draw(mFpsText);
 	mWindow.display();
 }

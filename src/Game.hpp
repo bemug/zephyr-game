@@ -4,7 +4,9 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
+#include "Aircraft.hpp"
 #include "ResourceHolder.hpp"
+#include "World.hpp"
 
 class Game
 {
@@ -20,13 +22,12 @@ class Game
 		void render();
 	private:
 		sf::RenderWindow mWindow;
+		World mWorld;
+
 		float mFps;
 		sf::Text mFpsText;
 		sf::Font mFpsFont;
-		sf::Texture mTexture;
-		sf::Sprite mPlayer;
 		bool mIsMovingUp, mIsMovingDown, mIsMovingLeft, mIsMovingRight;
-		ResourceHolder<sf::Texture, Textures::ID> mTextures;
 };
 
 #endif
