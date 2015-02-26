@@ -3,6 +3,7 @@
 
 #include "SceneNode.hpp"
 #include "Category.hpp"
+#include "Command.hpp"
 
 void SceneNode::attachChild(SceneNode::Ptr child)
 {
@@ -73,4 +74,12 @@ sf::Vector2f SceneNode::getWorldPosition() const
 unsigned int SceneNode::getCategory() const
 {
 	return Category::Scene;
+}
+
+void SceneNode::onCommand(const Command& command, sf::Time dt)
+{
+	if (command.category & getCategory())
+		command.action(*this, dt);
+	for (Ptr& child : mChildren)
+		child->onCommand(command, dt);
 }
