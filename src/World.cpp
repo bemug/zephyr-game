@@ -43,7 +43,7 @@ void World::buildScene() {
 	std::unique_ptr<Aircraft> leader(new Aircraft(Aircraft::Eagle, mTextures));
 	mPlayerAircraft = leader.get();
 	mPlayerAircraft->setPosition(mSpawnPosition);
-	mPlayerAircraft->setVelocity(40.f, mScrollSpeed);
+	mPlayerAircraft->setVelocity(0.f, mScrollSpeed);
 	mSceneLayers[Air]->attachChild(std::move(leader));
 	//Escort
 	std::unique_ptr<Aircraft> leftEscort(new Aircraft(Aircraft::Raptor, mTextures));
