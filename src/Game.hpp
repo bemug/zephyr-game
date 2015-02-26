@@ -6,6 +6,7 @@
 
 #include "ResourceHolder.hpp"
 #include "World.hpp"
+#include "Player.hpp"
 
 class Game
 {
@@ -15,13 +16,14 @@ class Game
 	private:
 		void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 		void displayFps();
-		void processEvents();
+		void processInput();
 		void update(sf::Time deltaTime);
 		void updateFps(sf::Time elapsedTime);
 		void render();
 	private:
 		sf::RenderWindow mWindow;
 		World mWorld;
+		Player mPlayer;
 
 		float mFps;
 		sf::Text mFpsText;
