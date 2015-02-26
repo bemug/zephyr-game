@@ -5,7 +5,8 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-#include "Command.hpp"
+//Forward declaration
+struct Command;
 
 class SceneNode : public sf::Transformable, public sf::Drawable, private sf::NonCopyable
 {
@@ -15,15 +16,15 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 		void attachChild(Ptr child);
 		Ptr detachChild(const SceneNode& node);
 		void update(sf::Time dt);
+		void onCommand(const Command& command, sf::Time dt);
 	private:
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual void updateCurrent(sf::Time dt);
-		virtual unsigned int SceneNode::getCategory() const;
+		virtual unsigned int getCategory() const;
 		void updateChildren(sf::Time dt);
 		sf::Transform getWorldTransform() const;
 		sf::Vector2f getWorldPosition() const;
-		void onCommand(const Command& command, sf::Time dt);
 	private:
 		std::vector<Ptr> mChildren;
 		SceneNode* mParent;

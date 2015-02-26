@@ -2,6 +2,7 @@
 #define COMMAND_QUEUE_H
 
 #include <queue>
+#include <functional>
 
 #include "Command.hpp"
 

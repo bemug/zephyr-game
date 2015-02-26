@@ -12,3 +12,5 @@ namespace Category
 		EnemyAircraft = 1 << 3,
 	};
 }
+
+#endif

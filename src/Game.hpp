@@ -4,7 +4,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 
-#include "Aircraft.hpp"
 #include "ResourceHolder.hpp"
 #include "World.hpp"
 
