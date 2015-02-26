@@ -15,6 +15,7 @@ class World : private sf::NonCopyable
 		explicit World(sf::RenderWindow& window);
 		void update(sf::Time dt);
 		void draw();
+		CommandQueue& World::getCommandQueue();
 
 	private:
 		void loadTextures();

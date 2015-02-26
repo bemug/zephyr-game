@@ -72,3 +72,8 @@ void World::update(sf::Time dt)
 	mSceneGraph.update(dt);
 }
 
+CommandQueue& World::getCommandQueue()
+{
+	return mCommandQueue;
+}
+
