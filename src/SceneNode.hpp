@@ -17,6 +17,7 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual void updateCurrent(sf::Time dt);
+		virtual unsigned int SceneNode::getCategory() const;
 		void updateChildren(sf::Time dt);
 		sf::Transform getWorldTransform() const;
 		sf::Vector2f getWorldPosition() const;

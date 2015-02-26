@@ -2,6 +2,7 @@
 
 #include "Aircraft.hpp"
 #include "ResourceHolder.hpp"
+#include "Category.hpp"
 
 //Intern function for clarity puproses
 Textures::ID toTextureID(Aircraft::Type type)
@@ -26,4 +27,15 @@ Aircraft::Aircraft(Type type, const TextureHolder& textures):
 void Aircraft::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(mSprite, states);
+}
+
+unsigned int Aircraft::getCategory() const
+{
+	switch (mType)
+	{
+		case Eagle:
+			return Category::PlayerAircraft;
+		default:
+			return Category::EnemyAircraft;
+	}
 }

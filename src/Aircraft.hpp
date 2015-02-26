@@ -18,6 +18,7 @@ class Aircraft : public Entity
 	public:
 		explicit Aircraft(Type type, const TextureHolder& textures);  //Explicit means the "type" paramter has to be a proper type (not implicitly converted)
 		virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+		virtual unsigned int Aircraft::getCategory() const;
 
 	private:
 		Type mType;
