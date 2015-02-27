@@ -64,10 +64,17 @@ void World::draw()
 void World::update(sf::Time dt)
 {
 	mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
+	mPlayerAircraft->setVelocity(0.f, 0.f);
 
 	// Forward commands to the scene graph
 	while (!mCommandQueue.isEmpty())
 		mSceneGraph.onCommand(mCommandQueue.pop(), dt);
+
+	sf::Vector2f velocity = mPlayerAircraft->getVelocity();
+	if (velocity.x != 0.f && velocity.y != 0.f)
+		mPlayerAircraft->setVelocity(velocity / std::sqrt(2.f));
+	mPlayerAircraft->accelerate(0.f, mScrollSpeed);
+
 	// Regular update step
 	mSceneGraph.update(dt);
 }
