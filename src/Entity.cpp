@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Entity.hpp"
 
 void Entity::setVelocity(sf::Vector2f velocity)
@@ -25,6 +27,7 @@ void Entity::accelerate(sf::Vector2f velocity)
 {
 	mVelocity += velocity;
 }
+
 void Entity::accelerate(float vx, float vy)
 {
 	mVelocity.x += vx;

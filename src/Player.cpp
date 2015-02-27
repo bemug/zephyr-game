@@ -5,21 +5,30 @@
 #include "Category.hpp"
 #include "Aircraft.hpp"
 
+struct AircraftMover
+{
+	AircraftMover(float vx, float vy)
+		: velocity(vx, vy)
+	{
+	}
+	void operator() (Aircraft& aircraft, sf::Time) const
+	{
+		aircraft.accelerate(velocity);
+	}
+	sf::Vector2f velocity;
+};
+
 Player::Player()
 {
 	const float playerSpeed = 200.f;
 	mKeyBinding[sf::Keyboard::Left] = MoveLeft;
 	mKeyBinding[sf::Keyboard::Right] = MoveRight;
-	mActionBinding[MoveLeft].action =
-		[=] (SceneNode& node, sf::Time dt)
-		{
-			node.move(-playerSpeed * dt.asSeconds(), 0.f);
-		};
-	mActionBinding[MoveRight].action =
-		[=] (SceneNode& node, sf::Time dt)
-		{
-			node.move(playerSpeed * dt.asSeconds(), 0.f);
-		};
+	mKeyBinding[sf::Keyboard::Up] = MoveUp;
+	mKeyBinding[sf::Keyboard::Down] = MoveDown;
+	mActionBinding[MoveLeft].action = derivedAction<Aircraft>(AircraftMover(-playerSpeed, 0.f));
+	mActionBinding[MoveRight].action = derivedAction<Aircraft>(AircraftMover(playerSpeed, 0.f));
+	mActionBinding[MoveUp].action = derivedAction<Aircraft>(AircraftMover(0.f, -playerSpeed));
+	mActionBinding[MoveDown].action = derivedAction<Aircraft>(AircraftMover(0.f, playerSpeed));
 	for (auto& pair : mActionBinding)
 		pair.second.category = Category::PlayerAircraft;
 }
