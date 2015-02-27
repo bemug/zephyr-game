@@ -77,6 +77,22 @@ void World::update(sf::Time dt)
 
 	// Regular update step
 	mSceneGraph.update(dt);
+
+	// Correct player position
+	sf::FloatRect viewBounds(
+			mWorldView.getCenter() - mWorldView.getSize() / 2.f,
+			mWorldView.getSize());
+	const float borderDistance = 40.f;
+	sf::Vector2f position = mPlayerAircraft->getPosition();
+	position.x = std::max(position.x,
+			viewBounds.left + borderDistance);
+	position.x = std::min(position.x,
+			viewBounds.left + viewBounds.width - borderDistance);
+	position.y = std::max(position.y,
+			viewBounds.top + borderDistance);
+	position.y = std::min(position.y,
+			viewBounds.top + viewBounds.height - borderDistance);
+	mPlayerAircraft->setPosition(position);
 }
 
 CommandQueue& World::getCommandQueue()

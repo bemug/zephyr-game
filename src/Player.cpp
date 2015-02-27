@@ -5,6 +5,25 @@
 #include "Category.hpp"
 #include "Aircraft.hpp"
 
+Player::Player()
+{
+	const float playerSpeed = 200.f;
+	mKeyBinding[sf::Keyboard::Left] = MoveLeft;
+	mKeyBinding[sf::Keyboard::Right] = MoveRight;
+	mActionBinding[MoveLeft].action =
+		[=] (SceneNode& node, sf::Time dt)
+		{
+			node.move(-playerSpeed * dt.asSeconds(), 0.f);
+		};
+	mActionBinding[MoveRight].action =
+		[=] (SceneNode& node, sf::Time dt)
+		{
+			node.move(playerSpeed * dt.asSeconds(), 0.f);
+		};
+	for (auto& pair : mActionBinding)
+		pair.second.category = Category::PlayerAircraft;
+}
+
 void Player::handleEvent(const sf::Event& event, CommandQueue& commands) {
 	if (event.type == sf::Event::KeyPressed
 			&& event.key.code == sf::Keyboard::P)
@@ -21,19 +40,25 @@ void Player::handleEvent(const sf::Event& event, CommandQueue& commands) {
 }
 
 void Player::handleRealtimeInput(CommandQueue& commands) {
-	const float playerSpeed = 30.f;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	for (auto pair : mKeyBinding)
 	{
-		Command moveLeft;
-		moveLeft.category = Category::PlayerAircraft;
-		moveLeft.action = derivedAction<Aircraft>(AircraftMover(-playerSpeed, 0.f));
-		commands.push(moveLeft);
+		if (sf::Keyboard::isKeyPressed(pair.first)
+				&& isRealtimeAction(pair.second))
+			commands.push(mActionBinding[pair.second]);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+}
+
+
+bool Player::isRealtimeAction(Action action)
+{
+	switch (action)
 	{
-		Command moveRight;
-		moveRight.category = Category::PlayerAircraft;
-		moveRight.action = derivedAction<Aircraft>(AircraftMover(playerSpeed, 0.f));
-		commands.push(moveRight);
+		case MoveLeft:
+		case MoveRight:
+		case MoveDown:
+		case MoveUp:
+			return true;
+		default:
+			return false;
 	}
 }
