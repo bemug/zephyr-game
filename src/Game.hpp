@@ -7,6 +7,7 @@
 #include "ResourceHolder.hpp"
 #include "World.hpp"
 #include "Player.hpp"
+#include "StateStack.hpp"
 
 class Game
 {
@@ -20,10 +21,13 @@ class Game
 		void update(sf::Time deltaTime);
 		void updateFps(sf::Time elapsedTime);
 		void render();
+		void registerStates();
 	private:
 		sf::RenderWindow mWindow;
-		World mWorld;
 		Player mPlayer;
+		TextureHolder mTextures;
+
+		StateStack mStateStack;
 
 		float mFps;
 		sf::Text mFpsText;

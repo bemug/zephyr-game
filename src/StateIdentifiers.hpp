@@ -4,12 +4,13 @@
 namespace States
 {
 	enum ID {
+		None,
 		Title,
 		Menu,
 		Game,
 		Pause,
 		NumberStates,
-	}
+	};
 }
 
 #endif

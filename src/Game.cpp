@@ -5,16 +5,21 @@
 #include "Game.hpp"
 #include "ResourceHolder.hpp"
 #include "Player.hpp"
+#include "StateStack.hpp"
+#include "State.hpp"
+
+//All states
+#include "GameState.hpp"
 
 Game::Game()
 	: mWindow(sf::VideoMode(640, 480), "Zephyr")
-	, mWorld(mWindow)
 	, mIsMovingUp(false)
 	, mIsMovingDown(false)
 	, mIsMovingLeft(false)
 	, mIsMovingRight(false)
 	, mFps(-1)
 	, mFpsText()
+	, mStateStack(State::Context(mWindow, mTextures, mPlayer)) //TODO font holder
 {
 	mFpsText.setString("");
 	if (!mFpsFont.loadFromFile("media/UbuntuMono-R.ttf")) {
@@ -25,6 +30,10 @@ Game::Game()
 	mFpsText.setPosition(2,0);
 	mFpsText.setCharacterSize(12); // in pixels, not points!
 	mFpsText.setColor(sf::Color::White);
+
+	//Start with the title screen
+	registerStates();
+	mStateStack.pushState(States::Game);
 }
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
@@ -53,6 +62,10 @@ void Game::run()
 			timeSinceLastUpdate -= TimePerFrame;
 			processInput();
 			update(TimePerFrame);
+
+			//Check inside this loop, because stack might be empty before update() call
+			if (mStateStack.isEmpty())
+				mWindow.close();
 		}
 		updateFps(elapsedTime);
 		render();
@@ -68,34 +81,18 @@ void Game::updateFps(sf::Time elapsedTime)
 
 void Game::processInput()
 {
-	CommandQueue& commands = mWorld.getCommandQueue();
-
 	sf::Event event;
 	while (mWindow.pollEvent(event))
 	{
-		mPlayer.handleEvent(event, commands);
+		mStateStack.handleEvent(event);
 		if (event.type == sf::Event::Closed)
 			mWindow.close();
 	}
-
-	mPlayer.handleRealtimeInput(commands);
 }
 
 void Game::update(sf::Time deltaTime)
 {
-	/*
-	sf::Vector2f movement(0.f, 0.f);
-	if (mIsMovingUp)
-		movement.y -= 1.f;
-	if (mIsMovingDown)
-		movement.y += 1.f;
-	if (mIsMovingLeft)
-		movement.x -= 1.f;
-	if (mIsMovingRight)
-		movement.x += 1.f;
-	mPlayer.move(movement * (float)deltaTime.asMilliseconds());
-	*/
-	mWorld.update(deltaTime);
+	mStateStack.update(deltaTime);
 }
 
 void Game::displayFps() {
@@ -107,8 +104,16 @@ void Game::displayFps() {
 void Game::render()
 {
 	mWindow.clear();
-	mWorld.draw();
+	mStateStack.draw();
 	mWindow.setView(mWindow.getDefaultView());
 	displayFps();
 	mWindow.display();
+}
+
+void Game::registerStates()
+{
+	//mStateStack.registerState<TitleState>(States::Title);
+	//mStateStack.registerState<MenuState>(States::Menu);
+	mStateStack.registerState<GameState>(States::Game);
+	//mStateStack.registerState<PauseState>(States::Pause);
 }

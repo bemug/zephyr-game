@@ -1,6 +1,11 @@
 #ifndef STATE_STACK_H
 #define STATE_STACK_H
 
+#include <SFML/Graphics.hpp>
+
+#include "StateIdentifiers.hpp"
+#include "State.hpp"
+
 class StateStack : private sf::NonCopyable
 {
 	public:
@@ -14,7 +19,7 @@ class StateStack : private sf::NonCopyable
 		explicit StateStack(State::Context context);
 
 		template <typename T>
-			void registerState(States::ID stateID);
+		void registerState(States::ID stateID);
 
 		void update(sf::Time dt);
 		void draw();
@@ -33,10 +38,10 @@ class StateStack : private sf::NonCopyable
 	private:
 		struct PendingChange
 		{
-			//TODO add some stuff
+			explicit PendingChange(Action action, States::ID stateID = States::None);
 			Action action;
 			States::ID stateID;
-		}
+		};
 
 	private:
 		std::vector<State::Ptr> mStack;
@@ -44,5 +49,14 @@ class StateStack : private sf::NonCopyable
 		State::Context mContext;
 		std::map<States::ID, std::function<State::Ptr()>> mFactories;
 };
+
+template <typename T>
+void StateStack::registerState(States::ID stateID)
+{
+	mFactories[stateID] = [this] ()
+	{
+		return State::Ptr(new T(*this, mContext));
+	};
+}
 
 #endif
