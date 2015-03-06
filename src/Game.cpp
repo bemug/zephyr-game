@@ -10,6 +10,7 @@
 
 //All states
 #include "GameState.hpp"
+#include "TitleState.hpp"
 
 Game::Game()
 	: mWindow(sf::VideoMode(640, 480), "Zephyr")
@@ -33,7 +34,7 @@ Game::Game()
 
 	//Start with the title screen
 	registerStates();
-	mStateStack.pushState(States::Game);
+	mStateStack.pushState(States::Title);
 }
 
 void Game::handlePlayerInput(sf::Keyboard::Key key, bool isPressed)
@@ -112,7 +113,7 @@ void Game::render()
 
 void Game::registerStates()
 {
-	//mStateStack.registerState<TitleState>(States::Title);
+	mStateStack.registerState<TitleState>(States::Title);
 	//mStateStack.registerState<MenuState>(States::Menu);
 	mStateStack.registerState<GameState>(States::Game);
 	//mStateStack.registerState<PauseState>(States::Pause);

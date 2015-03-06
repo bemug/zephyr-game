@@ -1,11 +1,16 @@
 #include "TitleState.hpp"
 
+TitleState::TitleState(StateStack& stack, Context context) 
+	: State(stack, context)
+{
+}
+
 bool TitleState::handleEvent(const sf::Event& event)
 {
 	if (event.type == sf::Event::KeyPressed)
 	{
 		requestStackPop();
-		requestStackPush(States::Menu);
+		requestStackPush(States::Game);
 	}
 	return true;
 }
@@ -19,4 +24,8 @@ bool TitleState::update(sf::Time dt)
 		mTextEffectTime = sf::Time::Zero;
 	}
 	return true;
+}
+
+void TitleState::draw() {
+
 }
