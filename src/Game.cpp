@@ -12,6 +12,7 @@
 #include "GameState.hpp"
 #include "TitleState.hpp"
 #include "MenuState.hpp"
+#include "PauseState.hpp"
 
 Game::Game()
 	: mWindow(sf::VideoMode(640, 480), "Zephyr")
@@ -117,5 +118,5 @@ void Game::registerStates()
 	mStateStack.registerState<TitleState>(States::Title);
 	mStateStack.registerState<MenuState>(States::Menu);
 	mStateStack.registerState<GameState>(States::Game);
-	//mStateStack.registerState<PauseState>(States::Pause);
+	mStateStack.registerState<PauseState>(States::Pause);
 }
