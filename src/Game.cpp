@@ -11,6 +11,7 @@
 //All states
 #include "GameState.hpp"
 #include "TitleState.hpp"
+#include "MenuState.hpp"
 
 Game::Game()
 	: mWindow(sf::VideoMode(640, 480), "Zephyr")
@@ -22,6 +23,7 @@ Game::Game()
 	, mFpsText()
 	, mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer)) //TODO font holder
 {
+	 mWindow.setKeyRepeatEnabled(false);
 
 	mFonts.load(Fonts::Default, "media/UbuntuMono-R.ttf");
 
@@ -113,7 +115,7 @@ void Game::render()
 void Game::registerStates()
 {
 	mStateStack.registerState<TitleState>(States::Title);
-	//mStateStack.registerState<MenuState>(States::Menu);
+	mStateStack.registerState<MenuState>(States::Menu);
 	mStateStack.registerState<GameState>(States::Game);
 	//mStateStack.registerState<PauseState>(States::Pause);
 }
