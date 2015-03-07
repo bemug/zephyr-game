@@ -26,6 +26,7 @@ class Game
 		sf::RenderWindow mWindow;
 		Player mPlayer;
 		TextureHolder mTextures;
+		FontHolder mFonts;
 
 		StateStack mStateStack;
 

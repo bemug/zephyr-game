@@ -20,14 +20,13 @@ Game::Game()
 	, mIsMovingRight(false)
 	, mFps(-1)
 	, mFpsText()
-	, mStateStack(State::Context(mWindow, mTextures, mPlayer)) //TODO font holder
+	, mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer)) //TODO font holder
 {
+
+	mFonts.load(Fonts::Default, "media/UbuntuMono-R.ttf");
+
 	mFpsText.setString("");
-	if (!mFpsFont.loadFromFile("media/UbuntuMono-R.ttf")) {
-		//Error handling
-		std::cout << "Error loading font" << std::endl;
-	}
-	mFpsText.setFont(mFpsFont);
+	mFpsText.setFont(mFonts.get(Fonts::Default));
 	mFpsText.setPosition(2,0);
 	mFpsText.setCharacterSize(12); // in pixels, not points!
 	mFpsText.setColor(sf::Color::White);

@@ -17,10 +17,19 @@ namespace Textures
 	};
 }
 
+namespace Fonts
+{
+	enum ID
+	{
+		Default,
+	};
+}
+
 // Forward declaration and a few type definitions
 template <typename Resource, typename Identifier>
 class ResourceHolder;
 
 typedef ResourceHolder<sf::Texture, Textures::ID> TextureHolder;
+typedef ResourceHolder<sf::Font, Fonts::ID> FontHolder;
 
 #endif // RESOURCE_IDENTIFIERS_H
