@@ -1,8 +1,16 @@
 #include "TitleState.hpp"
 
-TitleState::TitleState(StateStack& stack, Context context) 
-	: State(stack, context)
+#include "Utility.hpp"
+
+	TitleState::TitleState(StateStack& stack, Context context) 
+: State(stack, context)
+, mShowText(true)
 {
+
+	mText.setFont(context.fonts->get(Fonts::Default));
+	mText.setString("Press any key to start");
+	centerOrigin(mText);
+	mText.setPosition(context.window->getView().getSize() / 2.f);
 }
 
 bool TitleState::handleEvent(const sf::Event& event)
@@ -27,5 +35,8 @@ bool TitleState::update(sf::Time dt)
 }
 
 void TitleState::draw() {
-
+	sf::RenderWindow& window = *getContext().window;
+	//window.draw(mBackgroundSprite);
+	if (mShowText)
+		window.draw(mText);
 }
