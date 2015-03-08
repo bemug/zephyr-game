@@ -1,6 +1,8 @@
 #ifndef RESOURCE_IDENTIFIERS_H
 #define RESOURCE_IDENTIFIERS_H
 
+#include <SFML/Graphics.hpp>
+
 // Forward declaration of SFML classes
 namespace sf
 {

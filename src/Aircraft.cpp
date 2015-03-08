@@ -3,6 +3,12 @@
 #include "Aircraft.hpp"
 #include "ResourceHolder.hpp"
 #include "Category.hpp"
+#include "DataTables.hpp"
+
+namespace
+{
+	const std::vector<AircraftData> Table = initializeAircraftData();
+}
 
 //Intern function for clarity puproses
 Textures::ID toTextureID(Aircraft::Type type)

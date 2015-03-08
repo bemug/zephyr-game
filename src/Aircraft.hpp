@@ -13,6 +13,7 @@ class Aircraft : public Entity
 		{
 			Eagle,
 			Raptor,
+			TypeCount,
 		};
 
 	public:
