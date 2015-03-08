@@ -22,9 +22,9 @@ Game::Game()
 	, mIsMovingRight(false)
 	, mFps(-1)
 	, mFpsText()
-	, mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer)) //TODO font holder
+	, mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
 {
-	 mWindow.setKeyRepeatEnabled(false);
+	mWindow.setKeyRepeatEnabled(false);
 
 	mFonts.load(Fonts::Default, "media/UbuntuMono-R.ttf");
 
@@ -102,6 +102,7 @@ void Game::displayFps() {
 	std::ostringstream oss;
 	oss << "fps: " << mFps;
 	mFpsText.setString(oss.str());
+	mWindow.draw(mFpsText);
 }
 
 void Game::render()
