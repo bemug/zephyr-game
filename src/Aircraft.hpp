@@ -22,7 +22,7 @@ class Aircraft : public Entity
 		explicit Aircraft(Type type, const TextureHolder& textures, const FontHolder& fonts);
 		virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual unsigned int getCategory() const;
-		void updateCurrent(sf::Time dt, CommandQueue& commands);
+		virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
 
 	private:
 		Type mType;

@@ -79,7 +79,7 @@ void World::update(sf::Time dt)
 	mPlayerAircraft->accelerate(0.f, mScrollSpeed);
 
 	// Regular update step
-	mSceneGraph.update(dt);
+	mSceneGraph.update(dt, mCommandQueue);
 
 	// Correct player position
 	sf::FloatRect viewBounds(

@@ -41,21 +41,21 @@ void SceneNode::drawCurrent(sf::RenderTarget&, sf::RenderStates) const
 	// Do nothing by default
 }
 
-void SceneNode::update(sf::Time dt)
+void SceneNode::update(sf::Time dt, CommandQueue& commands)
 {
-	updateCurrent(dt);
-	updateChildren(dt);
+	updateCurrent(dt, commands);
+	updateChildren(dt, commands);
 }
 
-void SceneNode::updateCurrent(sf::Time)
+void SceneNode::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
 	// Do nothing by default
 }
 
-void SceneNode::updateChildren(sf::Time dt)
+void SceneNode::updateChildren(sf::Time dt, CommandQueue& commands)
 {
 	for (Ptr& child : mChildren)
-		child->update(dt);
+		child->update(dt, commands);
 }
 
 sf::Transform SceneNode::getWorldTransform() const

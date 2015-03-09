@@ -5,6 +5,8 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
+#include "CommandQueue.hpp"
+
 //Forward declaration
 struct Command;
 
@@ -15,14 +17,14 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 	public:
 		void attachChild(Ptr child);
 		Ptr detachChild(const SceneNode& node);
-		void update(sf::Time dt);
+		void update(sf::Time dt, CommandQueue& commands);
 		void onCommand(const Command& command, sf::Time dt);
 	private:
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
-		virtual void updateCurrent(sf::Time dt);
+		virtual void updateCurrent(sf::Time, CommandQueue&);
 		virtual unsigned int getCategory() const;
-		void updateChildren(sf::Time dt);
+		void updateChildren(sf::Time dt, CommandQueue& commands);
 		sf::Transform getWorldTransform() const;
 		sf::Vector2f getWorldPosition() const;
 	private:

@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include "SceneNode.hpp"
+#include "CommandQueue.hpp"
 
 class Entity : public SceneNode
 {
@@ -21,8 +22,8 @@ class Entity : public SceneNode
 		int getHitpoints() const;
 		bool isDestroyed() const;
 
-	private:
-		virtual void updateCurrent(sf::Time dt);
+	protected:
+		virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
 	private:
 		sf::Vector2f mVelocity;
 		int hitpoints;

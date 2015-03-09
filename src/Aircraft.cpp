@@ -5,6 +5,7 @@
 #include "ResourceHolder.hpp"
 #include "Category.hpp"
 #include "DataTables.hpp"
+#include "Entity.hpp"
 
 namespace
 {
@@ -53,7 +54,9 @@ unsigned int Aircraft::getCategory() const
 
 void Aircraft::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
-	mHealthDisplay->setString("HP");
+
+	Entity::updateCurrent(dt, commands);
+	mHealthDisplay->setString(std::to_string(getHitpoints()) + " HP");
 	mHealthDisplay->setPosition(0.f, 50.f);
 	mHealthDisplay->setRotation(-getRotation());
 }
