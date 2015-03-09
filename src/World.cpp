@@ -18,8 +18,8 @@ World::World(sf::RenderWindow& window, FontHolder& fonts)
 }
 
 void World::loadTextures() {
-	mTextures.load(Textures::Eagle, "media/ship.gif");
-	mTextures.load(Textures::Raptor, "media/ship.gif");
+	mTextures.load(Textures::Eagle, "media/playerShip2_blue.png");
+	mTextures.load(Textures::Raptor, "media/playerShip2_red.png");
 	mTextures.load(Textures::Desert, "media/desert.jpg");
 }
 
