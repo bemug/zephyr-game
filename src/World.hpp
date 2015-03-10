@@ -50,6 +50,7 @@ class World : private sf::NonCopyable
 		Aircraft* mPlayerAircraft;
 		CommandQueue mCommandQueue;
 		std::vector<SpawnPoint> mEnemySpawnPoints;
+		sf::FloatRect getViewBounds() const;
 		
 		sf::FloatRect getBattlefieldBounds();
 		void spawnEnemies();

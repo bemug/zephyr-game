@@ -110,8 +110,17 @@ CommandQueue& World::getCommandQueue()
 	return mCommandQueue;
 }
 
+sf::FloatRect World::getViewBounds() const
+{
+	return sf::FloatRect(mWorldView.getCenter() - mWorldView.getSize() / 2.f, mWorldView.getSize());
+}
+
 sf::FloatRect World::getBattlefieldBounds() {
-	
+	// Return view bounds + some area at top, where enemies spawn
+	sf::FloatRect bounds = getViewBounds();
+	bounds.top -= 100.f;
+	bounds.height += 100.f;
+	return bounds;	
 }
 
 void World::spawnEnemies()
