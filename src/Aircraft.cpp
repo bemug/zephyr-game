@@ -32,6 +32,7 @@ Aircraft::Aircraft(Type type, const TextureHolder& textures, const FontHolder& f
 : mType(type)
 , mSprite(textures.get(toTextureID(type)))
 , Entity(Table[type].hitpoints)
+, mDirectionIndex(0)
 {
 	//Center coordinates
 	sf::FloatRect bounds = mSprite.getLocalBounds();
