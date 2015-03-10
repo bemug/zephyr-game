@@ -20,6 +20,7 @@ World::World(sf::RenderWindow& window, FontHolder& fonts)
 void World::loadTextures() {
 	mTextures.load(Textures::Eagle, "media/playerShip2_blue.png");
 	mTextures.load(Textures::Raptor, "media/playerShip2_red.png");
+	mTextures.load(Textures::Avenger, "media/playerShip2_green.png");
 	mTextures.load(Textures::Desert, "media/desert.jpg");
 }
 
@@ -47,12 +48,14 @@ void World::buildScene() {
 	mPlayerAircraft->setVelocity(0.f, mScrollSpeed);
 	mSceneLayers[Air]->attachChild(std::move(leader));
 	//Escort
+	/*
 	std::unique_ptr<Aircraft> leftEscort(new Aircraft(Aircraft::Raptor, mTextures, mFonts));
 	leftEscort->setPosition(-80.f, 50.f);
 	mPlayerAircraft->attachChild(std::move(leftEscort));
 	std::unique_ptr<Aircraft> rightEscort(new Aircraft(Aircraft::Raptor, mTextures, mFonts));
 	rightEscort->setPosition(80.f, 50.f);
 	mPlayerAircraft->attachChild(std::move(rightEscort));
+	*/
 }
 
 void World::draw()

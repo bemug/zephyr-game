@@ -21,6 +21,8 @@ Textures::ID toTextureID(Aircraft::Type type)
 			return Textures::Eagle;
 		case Aircraft::Raptor:
 			return Textures::Raptor;
+		case Aircraft::Avenger:
+			return Textures::Avenger;
 	}
 };
 

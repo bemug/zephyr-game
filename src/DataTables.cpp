@@ -16,5 +16,21 @@ std::vector<AircraftData> initializeAircraftData()
 	data[Aircraft::Raptor].speed = 80.f;
 	data[Aircraft::Raptor].texture = Textures::Raptor;
 
+	data[Aircraft::Raptor].directions.push_back(Direction( 45, 80));
+	data[Aircraft::Raptor].directions.push_back(Direction(-45, 160));
+	data[Aircraft::Raptor].directions.push_back(Direction( 45, 80));
+
+	data[Aircraft::Avenger].directions.push_back(Direction(+45, 50));
+	data[Aircraft::Avenger].directions.push_back(Direction( 0, 50));
+	data[Aircraft::Avenger].directions.push_back(Direction(-45, 100));
+	data[Aircraft::Avenger].directions.push_back(Direction( 0, 50));
+	data[Aircraft::Avenger].directions.push_back(Direction(+45, 50));
+
 	return data;
+}
+
+Direction::Direction(float angle, float distance)
+: angle(angle)
+, distance(distance)
+{
 }
