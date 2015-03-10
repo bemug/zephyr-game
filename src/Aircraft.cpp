@@ -28,8 +28,10 @@ Textures::ID toTextureID(Aircraft::Type type)
 	}
 };
 
-Aircraft::Aircraft(Type type, const TextureHolder& textures, const FontHolder& fonts):
-	mType(type), mSprite(textures.get(toTextureID(type)))
+Aircraft::Aircraft(Type type, const TextureHolder& textures, const FontHolder& fonts)
+: mType(type)
+, mSprite(textures.get(toTextureID(type)))
+, Entity(Table[type].hitpoints)
 {
 	//Center coordinates
 	sf::FloatRect bounds = mSprite.getLocalBounds();
