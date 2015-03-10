@@ -24,11 +24,15 @@ class Aircraft : public Entity
 		virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual unsigned int getCategory() const;
 		virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
+		void updateMovementPattern(sf::Time dt);
+		float getMaxSpeed();
 
 	private:
 		Type mType;
 		sf::Sprite mSprite;
 		TextNode* mHealthDisplay;
+		float mTravelledDistance;
+		int mDirectionIndex;
 };
 
 #endif

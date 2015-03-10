@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <cmath>
 
 #include "TextNode.hpp"
 #include "Aircraft.hpp"
@@ -6,6 +7,7 @@
 #include "Category.hpp"
 #include "DataTables.hpp"
 #include "Entity.hpp"
+#include "Utility.hpp"
 
 namespace
 {
@@ -61,4 +63,28 @@ void Aircraft::updateCurrent(sf::Time dt, CommandQueue& commands)
 	mHealthDisplay->setString(std::to_string(getHitpoints()) + " HP");
 	mHealthDisplay->setPosition(0.f, 50.f);
 	mHealthDisplay->setRotation(-getRotation());
+}
+
+void Aircraft::updateMovementPattern(sf::Time dt)
+{
+	const std::vector<Direction>& directions = Table[mType].directions;
+	if (!directions.empty())
+	{
+		float distanceToTravel = directions[mDirectionIndex].distance;
+		if (mTravelledDistance > distanceToTravel)
+		{
+			//FIXME Can fly further than should have
+			mDirectionIndex = (mDirectionIndex + 1) % directions.size();
+			mTravelledDistance = 0.f;
+		}
+		float radians = toRadian(directions[mDirectionIndex].angle + 90.f);
+		float vx = getMaxSpeed() * std::cos(radians);
+		float vy = getMaxSpeed() * std::sin(radians);
+		setVelocity(vx, vy);
+		mTravelledDistance += getMaxSpeed() * dt.asSeconds();
+	}
+}
+
+float Aircraft::getMaxSpeed() {
+	return Table[mType].speed;
 }

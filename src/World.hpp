@@ -17,6 +17,14 @@ class World : private sf::NonCopyable
 		void draw();
 		CommandQueue& getCommandQueue();
 
+		struct SpawnPoint
+		{
+			SpawnPoint(Aircraft::Type type, float x, float y);
+			Aircraft::Type type;
+			float x;
+			float y;
+		};
+
 	private:
 		void loadTextures();
 		void buildScene();
@@ -41,6 +49,12 @@ class World : private sf::NonCopyable
 		float mScrollSpeed;
 		Aircraft* mPlayerAircraft;
 		CommandQueue mCommandQueue;
+		std::vector<SpawnPoint> mEnemySpawnPoints;
+		
+		sf::FloatRect getBattlefieldBounds();
+		void spawnEnemies();
+		void addEnemies();
+		void addEnemy(Aircraft::Type type, float x, float y);
 };
 
 #endif

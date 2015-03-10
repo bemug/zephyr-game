@@ -6,5 +6,6 @@
 
 void centerOrigin(sf::Sprite& sprite);
 void centerOrigin(sf::Text& text);
+float toRadian(float degree);
 
 #endif
