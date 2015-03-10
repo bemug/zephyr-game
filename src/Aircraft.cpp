@@ -60,6 +60,7 @@ void Aircraft::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
 
 	Entity::updateCurrent(dt, commands);
+	updateMovementPattern(dt);
 	mHealthDisplay->setString(std::to_string(getHitpoints()) + " HP");
 	mHealthDisplay->setPosition(0.f, 50.f);
 	mHealthDisplay->setRotation(-getRotation());
