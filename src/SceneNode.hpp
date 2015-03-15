@@ -19,6 +19,7 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 		Ptr detachChild(const SceneNode& node);
 		void update(sf::Time dt, CommandQueue& commands);
 		void onCommand(const Command& command, sf::Time dt);
+		sf::Vector2f getWorldPosition() const;
 	private:
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -26,10 +27,11 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 		virtual unsigned int getCategory() const;
 		void updateChildren(sf::Time dt, CommandQueue& commands);
 		sf::Transform getWorldTransform() const;
-		sf::Vector2f getWorldPosition() const;
 	private:
 		std::vector<Ptr> mChildren;
 		SceneNode* mParent;
 };
+
+float distance(const SceneNode& lhs, const SceneNode& rhs);
 
 #endif

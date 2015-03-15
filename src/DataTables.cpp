@@ -11,14 +11,17 @@ std::vector<AircraftData> initializeAircraftData()
 	data[Aircraft::Eagle].hitpoints = 100;
 	data[Aircraft::Eagle].speed = 200.f;
 	data[Aircraft::Eagle].texture = Textures::Eagle;
+	data[Aircraft::Eagle].fireInterval = sf::seconds(1);
 
 	data[Aircraft::Raptor].hitpoints = 20;
 	data[Aircraft::Raptor].speed = 80.f;
 	data[Aircraft::Raptor].texture = Textures::Raptor;
+	data[Aircraft::Eagle].fireInterval = sf::seconds(0);
 
 	data[Aircraft::Raptor].directions.push_back(Direction( 45, 80));
 	data[Aircraft::Raptor].directions.push_back(Direction(-45, 160));
 	data[Aircraft::Raptor].directions.push_back(Direction( 45, 80));
+	data[Aircraft::Eagle].fireInterval = sf::seconds(2);
 
 	data[Aircraft::Avenger].hitpoints = 20;
 	data[Aircraft::Avenger].speed = 120.f;
@@ -31,6 +34,10 @@ std::vector<AircraftData> initializeAircraftData()
 	data[Aircraft::Avenger].directions.push_back(Direction(+45, 50));
 
 	return data;
+}
+
+std::vector<ProjectileData> initializeProjectileData()
+{
 }
 
 Direction::Direction(float angle, float distance)

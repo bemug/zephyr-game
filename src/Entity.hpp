@@ -26,7 +26,7 @@ class Entity : public SceneNode
 		virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
 	private:
 		sf::Vector2f mVelocity;
-		int hitpoints;
+		int mHitpoints;
 };
 
 #endif

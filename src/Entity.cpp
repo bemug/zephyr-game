@@ -3,12 +3,12 @@
 #include "Entity.hpp"
 
 Entity::Entity()
-: hitpoints(1)
+: mHitpoints(1)
 {
 }
 
-Entity::Entity(int hitpoints)
-: hitpoints(hitpoints)
+Entity::Entity(int mHitpoints)
+: mHitpoints(mHitpoints)
 {
 }
 
@@ -46,19 +46,24 @@ void Entity::accelerate(float vx, float vy)
 
 void Entity::repair(int points)
 {
-	hitpoints += points;
+	mHitpoints += points;
 }
 
 void Entity::damage(int points)
 {
-	hitpoints -= points;
+	mHitpoints -= points;
 }
 
 void Entity::destroy()
 {
-	hitpoints = 0;
+	mHitpoints = 0;
 }
 
 int Entity::getHitpoints() const {
-	return hitpoints;
+	return mHitpoints;
+}
+
+bool Entity::isDestroyed() const
+{
+	return mHitpoints <= 0;
 }

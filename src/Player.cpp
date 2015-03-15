@@ -1,4 +1,5 @@
 #include <iostream>
+#include <tr1/functional>
 
 #include "Player.hpp"
 #include "Category.hpp"
@@ -25,10 +26,14 @@ Player::Player()
 	mKeyBinding[sf::Keyboard::Right] = MoveRight;
 	mKeyBinding[sf::Keyboard::Up] = MoveUp;
 	mKeyBinding[sf::Keyboard::Down] = MoveDown;
+	mKeyBinding[sf::Keyboard::Space] = Fire;
+	mKeyBinding[sf::Keyboard::M] = LaunchMissile;
 	mActionBinding[MoveLeft].action = derivedAction<Aircraft>(AircraftMover(-playerSpeed, 0.f));
 	mActionBinding[MoveRight].action = derivedAction<Aircraft>(AircraftMover(playerSpeed, 0.f));
 	mActionBinding[MoveUp].action = derivedAction<Aircraft>(AircraftMover(0.f, -playerSpeed));
 	mActionBinding[MoveDown].action = derivedAction<Aircraft>(AircraftMover(0.f, playerSpeed));
+	mActionBinding[Fire].action = derivedAction<Aircraft>(std::bind(&Aircraft::fire, std::tr1::placeholders::_1));
+	mActionBinding[LaunchMissile].action = derivedAction<Aircraft>(std::bind(&Aircraft::launchMissile, std::tr1::placeholders::_1));
 	for (auto& pair : mActionBinding)
 		pair.second.category = Category::PlayerAircraft;
 }
@@ -66,6 +71,7 @@ bool Player::isRealtimeAction(Action action)
 		case MoveRight:
 		case MoveDown:
 		case MoveUp:
+		case Fire:
 			return true;
 		default:
 			return false;

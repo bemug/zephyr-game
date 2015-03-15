@@ -1,7 +1,12 @@
 #include "World.hpp"
 
+#include <algorithm>
+#include <cmath>
+#include <limits>
+
 #include "SpriteNode.hpp"
 #include "CommandQueue.hpp"
+#include "Category.hpp"
 
 World::World(sf::RenderWindow& window, FontHolder& fonts)
 : mWindow(window)
@@ -158,6 +163,46 @@ void World::addEnemy(Aircraft::Type type, float relX, float relY) {
 World::SpawnPoint::SpawnPoint(Aircraft::Type type, float x, float y)
 : type(type)
 , x(x)
-,y (y)
+, y(y)
 {
 }
+
+void World::guideMissiles()
+{
+	Command enemyCollector;
+	enemyCollector.category = Category::EnemyAircraft;
+	enemyCollector.action = derivedAction<Aircraft>(
+		[this] (Aircraft& enemy, sf::Time)
+		{
+			if (!enemy.isDestroyed())
+			mActiveEnemies.push_back(&enemy);
+		});
+	Command missileGuider;
+	missileGuider.category = Category::AlliedProjectile;
+	missileGuider.action = derivedAction<Projectile>(
+			[this] (Projectile& missile, sf::Time)
+			{
+			// Ignore unguided bullets
+			if (!missile.isGuided())
+				return;
+			float minDistance = std::numeric_limits<float>::max();
+			Aircraft* closestEnemy = nullptr;
+			for (Aircraft* enemy : mActiveEnemies)
+			{
+				float enemyDistance = distance(missile, *enemy);
+				if (enemyDistance < minDistance)
+				{
+					closestEnemy = enemy;
+					minDistance = enemyDistance;
+				}
+			}
+			if (closestEnemy)
+				missile.guideTowards(
+					closestEnemy->getWorldPosition());
+			});
+	mCommandQueue.push(enemyCollector);
+	mCommandQueue.push(missileGuider);
+
+	mActiveEnemies.clear();
+}
+

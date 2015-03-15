@@ -7,5 +7,8 @@
 void centerOrigin(sf::Sprite& sprite);
 void centerOrigin(sf::Text& text);
 float toRadian(float degree);
+sf::Vector2f unitVector(sf::Vector2f vector);
+float length(sf::Vector2f vector);
+float toDegree(float radian);
 
 #endif

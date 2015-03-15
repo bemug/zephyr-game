@@ -7,6 +7,7 @@
 #include "TextNode.hpp"
 #include "ResourceHolder.hpp"
 #include "CommandQueue.hpp"
+#include "Projectile.hpp"
 
 class Aircraft : public Entity
 {
@@ -26,6 +27,14 @@ class Aircraft : public Entity
 		virtual void updateCurrent(sf::Time dt, CommandQueue& commands);
 		void updateMovementPattern(sf::Time dt);
 		float getMaxSpeed();
+		void checkProjectileLaunch(sf::Time dt, CommandQueue& commands);
+		void createBullets(SceneNode& node, const TextureHolder& textures) const;
+		void createProjectile(SceneNode& node,
+				Projectile::Type type, float xOffset, float yOffset,
+				const TextureHolder& textures) const;
+		void fire();
+		bool isAllied() const;
+		void launchMissile();
 
 	private:
 		Type mType;
@@ -33,6 +42,14 @@ class Aircraft : public Entity
 		TextNode* mHealthDisplay;
 		float mTravelledDistance;
 		int mDirectionIndex;
+		bool mIsFiring;
+		sf::Time mFireCountdown;
+		bool mIsLaunchingMissile;
+		Command mFireCommand;
+		Command mMissileCommand;
+		int mFireRateLevel;
+		int mSpreadLevel;
+		int mMissileAmmo;
 };
 
 #endif

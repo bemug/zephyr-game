@@ -3,6 +3,7 @@
 
 #include<SFML/Graphics.hpp>
 #include <array>
+#include <vector>
 
 #include "ResourceHolder.hpp"
 #include "SceneNode.hpp"
@@ -16,6 +17,7 @@ class World : private sf::NonCopyable
 		void update(sf::Time dt);
 		void draw();
 		CommandQueue& getCommandQueue();
+		void guideMissiles();
 
 		struct SpawnPoint
 		{
@@ -51,6 +53,7 @@ class World : private sf::NonCopyable
 		CommandQueue mCommandQueue;
 		std::vector<SpawnPoint> mEnemySpawnPoints;
 		sf::FloatRect getViewBounds() const;
+		std::vector<Aircraft*> mActiveEnemies;
 		
 		sf::FloatRect getBattlefieldBounds();
 		void spawnEnemies();

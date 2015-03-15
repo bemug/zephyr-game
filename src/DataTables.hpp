@@ -18,8 +18,16 @@ struct AircraftData
 	float speed;
 	Textures::ID texture;
 	std::vector<Direction> directions;
+	sf::Time fireInterval;
+};
+
+struct ProjectileData
+{
+	Textures::ID texture;
+	int speed;
 };
 
 std::vector<AircraftData> initializeAircraftData();
+std::vector<ProjectileData> initializeProjectileData();
 
 #endif

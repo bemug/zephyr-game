@@ -8,6 +8,7 @@
 #include "DataTables.hpp"
 #include "Entity.hpp"
 #include "Utility.hpp"
+#include "Projectile.hpp"
 
 namespace
 {
@@ -33,6 +34,9 @@ Aircraft::Aircraft(Type type, const TextureHolder& textures, const FontHolder& f
 , mSprite(textures.get(toTextureID(type)))
 , Entity(Table[type].hitpoints)
 , mDirectionIndex(0)
+, mFireRateLevel(1)
+, mSpreadLevel(1)
+, mMissileAmmo(2)
 {
 	//Center coordinates
 	sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -41,6 +45,20 @@ Aircraft::Aircraft(Type type, const TextureHolder& textures, const FontHolder& f
 	std::unique_ptr<TextNode> healthDisplay(new TextNode(fonts, ""));
 	mHealthDisplay = healthDisplay.get();
 	attachChild(std::move(healthDisplay));
+
+	mFireCommand.category = Category::SceneAirLayer;
+	mFireCommand.action =
+		[this, &textures] (SceneNode& node, sf::Time)
+		{
+			createBullets(node, textures);
+		};
+	mMissileCommand.category = Category::SceneAirLayer;
+	mMissileCommand.action =
+		[this, &textures] (SceneNode& node, sf::Time)
+		{
+			createProjectile(node, Projectile::Missile, 0.f, 0.5f,
+					textures);
+		};
 }
 
 void Aircraft::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
@@ -91,4 +109,85 @@ void Aircraft::updateMovementPattern(sf::Time dt)
 
 float Aircraft::getMaxSpeed() {
 	return Table[mType].speed;
+}
+
+void Aircraft::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
+{
+	if (!isAllied())
+		fire();
+
+	if (mIsFiring && mFireCountdown <= sf::Time::Zero)
+	{
+		commands.push(mFireCommand);
+		mFireCountdown += sf::seconds(1.f / (mFireRateLevel+1));
+		mIsFiring = false;
+	}
+	else if (mFireCountdown > sf::Time::Zero)
+	{
+		mFireCountdown -= dt;
+	}
+	if (mIsLaunchingMissile)
+	{
+		commands.push(mMissileCommand);
+		mIsLaunchingMissile = false;
+	}
+}
+
+void Aircraft::createBullets(SceneNode& node, const TextureHolder&
+		textures) const
+{
+	Projectile::Type type = isAllied()
+		? Projectile::AlliedBullet : Projectile::EnemyBullet;
+	switch (mSpreadLevel)
+	{
+		case 1:
+			createProjectile(node, type, 0.0f, 0.5f, textures);
+			break;
+		case 2:
+			createProjectile(node, type, -0.33f, 0.33f, textures);
+			createProjectile(node, type, +0.33f, 0.33f, textures);
+			break;
+		case 3:
+			createProjectile(node, type, -0.5f, 0.33f, textures);
+			createProjectile(node, type, 0.0f, 0.5f, textures);
+			createProjectile(node, type, +0.5f, 0.33f, textures);
+			break;
+	}
+}
+
+void Aircraft::createProjectile(SceneNode& node,
+		Projectile::Type type, float xOffset, float yOffset,
+		const TextureHolder& textures) const
+{
+	std::unique_ptr<Projectile> projectile(
+			new Projectile(type, textures));
+	sf::Vector2f offset(
+			xOffset * mSprite.getGlobalBounds().width,
+			yOffset * mSprite.getGlobalBounds().height);
+	sf::Vector2f velocity(0, projectile->getMaxSpeed());
+	float sign = isAllied() ? -1.f : +1.f;
+	projectile->setPosition(getWorldPosition() + offset * sign);
+	projectile->setVelocity(velocity * sign);
+	node.attachChild(std::move(projectile));
+}
+
+void Aircraft::fire()
+{
+	// Only ships with fire interval != 0 are able to fire
+	if (Table[mType].fireInterval != sf::Time::Zero)
+		mIsFiring = true;
+}
+
+bool Aircraft::isAllied() const
+{
+	return mType == Eagle;
+}
+
+void Aircraft::launchMissile()
+{
+	if (mMissileAmmo > 0)
+	{
+		mIsLaunchingMissile = true;
+		--mMissileAmmo;
+	}
 }
