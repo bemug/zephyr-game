@@ -6,6 +6,12 @@
 #include "Command.hpp"
 #include "Utility.hpp"
 
+SceneNode::SceneNode()
+	: mChildren()
+	  , mParent(nullptr)
+{
+}
+
 void SceneNode::attachChild(SceneNode::Ptr child)
 {
 	child->mParent = this;
@@ -62,8 +68,9 @@ void SceneNode::updateChildren(sf::Time dt, CommandQueue& commands)
 sf::Transform SceneNode::getWorldTransform() const
 {
 	sf::Transform transform = sf::Transform::Identity;
-	for (const SceneNode* node = this; node != nullptr; node = node->mParent)
+	for (const SceneNode* node = this; node != nullptr; node = node->mParent) {
 		transform = node->getTransform() * transform;
+	}
 	return transform;
 }
 

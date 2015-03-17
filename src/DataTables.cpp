@@ -16,16 +16,16 @@ std::vector<AircraftData> initializeAircraftData()
 	data[Aircraft::Raptor].hitpoints = 20;
 	data[Aircraft::Raptor].speed = 80.f;
 	data[Aircraft::Raptor].texture = Textures::Raptor;
-	data[Aircraft::Eagle].fireInterval = sf::seconds(0);
+	data[Aircraft::Raptor].fireInterval = sf::seconds(0);
 
 	data[Aircraft::Raptor].directions.push_back(Direction( 45, 80));
 	data[Aircraft::Raptor].directions.push_back(Direction(-45, 160));
 	data[Aircraft::Raptor].directions.push_back(Direction( 45, 80));
-	data[Aircraft::Eagle].fireInterval = sf::seconds(2);
 
 	data[Aircraft::Avenger].hitpoints = 20;
 	data[Aircraft::Avenger].speed = 120.f;
 	data[Aircraft::Avenger].texture = Textures::Avenger;
+	data[Aircraft::Avenger].fireInterval = sf::seconds(2);
 
 	data[Aircraft::Avenger].directions.push_back(Direction(+45, 50));
 	data[Aircraft::Avenger].directions.push_back(Direction( 0, 50));
@@ -38,6 +38,22 @@ std::vector<AircraftData> initializeAircraftData()
 
 std::vector<ProjectileData> initializeProjectileData()
 {
+
+	std::vector<ProjectileData> data(Projectile::TypeCount);
+
+	data[Projectile::AlliedBullet].damage = 10;
+	data[Projectile::AlliedBullet].speed = 300.f;
+	data[Projectile::AlliedBullet].texture = Textures::Eagle;
+
+	data[Projectile::EnemyBullet].damage = 10;
+	data[Projectile::EnemyBullet].speed = 300.f;
+	data[Projectile::EnemyBullet].texture = Textures::Raptor;
+
+	data[Projectile::Missile].damage = 200;
+	data[Projectile::Missile].speed = 150.f;
+	data[Projectile::Missile].texture = Textures::Missile;
+
+	return data;
 }
 
 Direction::Direction(float angle, float distance)

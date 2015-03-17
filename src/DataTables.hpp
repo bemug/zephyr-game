@@ -25,6 +25,7 @@ struct ProjectileData
 {
 	Textures::ID texture;
 	int speed;
+	int damage;
 };
 
 std::vector<AircraftData> initializeAircraftData();

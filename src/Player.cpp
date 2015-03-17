@@ -1,5 +1,4 @@
 #include <iostream>
-#include <tr1/functional>
 
 #include "Player.hpp"
 #include "Category.hpp"
@@ -32,8 +31,9 @@ Player::Player()
 	mActionBinding[MoveRight].action = derivedAction<Aircraft>(AircraftMover(playerSpeed, 0.f));
 	mActionBinding[MoveUp].action = derivedAction<Aircraft>(AircraftMover(0.f, -playerSpeed));
 	mActionBinding[MoveDown].action = derivedAction<Aircraft>(AircraftMover(0.f, playerSpeed));
-	mActionBinding[Fire].action = derivedAction<Aircraft>(std::bind(&Aircraft::fire, std::tr1::placeholders::_1));
-	mActionBinding[LaunchMissile].action = derivedAction<Aircraft>(std::bind(&Aircraft::launchMissile, std::tr1::placeholders::_1));
+	mActionBinding[Fire].action = derivedAction<Aircraft>([] (Aircraft& a, sf::Time){ a.fire(); });
+	mActionBinding[LaunchMissile].action = derivedAction<Aircraft>([] (Aircraft& a, sf::Time){ a.launchMissile(); });
+
 	for (auto& pair : mActionBinding)
 		pair.second.category = Category::PlayerAircraft;
 }

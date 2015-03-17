@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
+#include <iostream>
 
 #include "TextNode.hpp"
 #include "Aircraft.hpp"
@@ -37,6 +38,13 @@ Aircraft::Aircraft(Type type, const TextureHolder& textures, const FontHolder& f
 , mFireRateLevel(1)
 , mSpreadLevel(1)
 , mMissileAmmo(2)
+, mIsFiring(false)
+, mIsLaunchingMissile(false)
+, mFireCountdown(sf::Time::Zero)
+, mTravelledDistance(0.f)
+, mFireCommand()
+, mMissileCommand()
+, mHealthDisplay(nullptr)
 {
 	//Center coordinates
 	sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -80,8 +88,10 @@ unsigned int Aircraft::getCategory() const
 void Aircraft::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
 
-	Entity::updateCurrent(dt, commands);
+	checkProjectileLaunch(dt, commands);
 	updateMovementPattern(dt);
+	Entity::updateCurrent(dt, commands);
+
 	mHealthDisplay->setString(std::to_string(getHitpoints()) + " HP");
 	mHealthDisplay->setPosition(0.f, 50.f);
 	mHealthDisplay->setRotation(-getRotation());
@@ -119,12 +129,13 @@ void Aircraft::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 	if (mIsFiring && mFireCountdown <= sf::Time::Zero)
 	{
 		commands.push(mFireCommand);
-		mFireCountdown += sf::seconds(1.f / (mFireRateLevel+1));
+		mFireCountdown += Table[mType].fireInterval / (mFireRateLevel + 1.f);
 		mIsFiring = false;
 	}
 	else if (mFireCountdown > sf::Time::Zero)
 	{
 		mFireCountdown -= dt;
+		mIsFiring = false;
 	}
 	if (mIsLaunchingMissile)
 	{
@@ -174,8 +185,9 @@ void Aircraft::createProjectile(SceneNode& node,
 void Aircraft::fire()
 {
 	// Only ships with fire interval != 0 are able to fire
-	if (Table[mType].fireInterval != sf::Time::Zero)
+	if (Table[mType].fireInterval != sf::Time::Zero) {
 		mIsFiring = true;
+	}
 }
 
 bool Aircraft::isAllied() const

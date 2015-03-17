@@ -15,6 +15,7 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 	public:
 		typedef std::unique_ptr<SceneNode> Ptr;
 	public:
+		SceneNode();
 		void attachChild(Ptr child);
 		Ptr detachChild(const SceneNode& node);
 		void update(sf::Time dt, CommandQueue& commands);
