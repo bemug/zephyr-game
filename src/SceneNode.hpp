@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "CommandQueue.hpp"
+#include "Category.hpp"
 
 //Forward declaration
 struct Command;
@@ -15,7 +16,7 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 	public:
 		typedef std::unique_ptr<SceneNode> Ptr;
 	public:
-		SceneNode();
+		SceneNode(Category::Type category = Category::None);
 		void attachChild(Ptr child);
 		Ptr detachChild(const SceneNode& node);
 		void update(sf::Time dt, CommandQueue& commands);
@@ -31,6 +32,7 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 	private:
 		std::vector<Ptr> mChildren;
 		SceneNode* mParent;
+		Category::Type mDefaultCategory;
 };
 
 float distance(const SceneNode& lhs, const SceneNode& rhs);

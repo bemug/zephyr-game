@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "Projectile.hpp"
 
 #include "DataTables.hpp"

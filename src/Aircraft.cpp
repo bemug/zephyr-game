@@ -58,6 +58,7 @@ Aircraft::Aircraft(Type type, const TextureHolder& textures, const FontHolder& f
 	mFireCommand.action =
 		[this, &textures] (SceneNode& node, sf::Time)
 		{
+			std::cout << "mFireCommand" << std::endl;
 			createBullets(node, textures);
 		};
 	mMissileCommand.category = Category::SceneAirLayer;
@@ -128,6 +129,7 @@ void Aircraft::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 
 	if (mIsFiring && mFireCountdown <= sf::Time::Zero)
 	{
+		std::cout << "Pushing command" << std::endl;
 		commands.push(mFireCommand);
 		mFireCountdown += Table[mType].fireInterval / (mFireRateLevel + 1.f);
 		mIsFiring = false;
@@ -147,8 +149,10 @@ void Aircraft::checkProjectileLaunch(sf::Time dt, CommandQueue& commands)
 void Aircraft::createBullets(SceneNode& node, const TextureHolder&
 		textures) const
 {
+	std::cout << "fire" << std::endl;
 	Projectile::Type type = isAllied()
 		? Projectile::AlliedBullet : Projectile::EnemyBullet;
+
 	switch (mSpreadLevel)
 	{
 		case 1:

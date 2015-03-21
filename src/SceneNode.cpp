@@ -1,3 +1,4 @@
+#include <iostream>
 #include <cassert>
 #include <algorithm>
 
@@ -6,9 +7,10 @@
 #include "Command.hpp"
 #include "Utility.hpp"
 
-SceneNode::SceneNode()
-	: mChildren()
-	  , mParent(nullptr)
+SceneNode::SceneNode(Category::Type category)
+: mChildren()
+, mParent(nullptr)
+, mDefaultCategory(category)
 {
 }
 
@@ -81,13 +83,15 @@ sf::Vector2f SceneNode::getWorldPosition() const
 
 unsigned int SceneNode::getCategory() const
 {
-	return Category::SceneAirLayer; //TODO adapt
+	return mDefaultCategory;
 }
 
 void SceneNode::onCommand(const Command& command, sf::Time dt)
 {
-	if (command.category & getCategory())
+	if (command.category & getCategory()) {
+		std::cout << getCategory() << std::endl;
 		command.action(*this, dt);
+	}
 	for (Ptr& child : mChildren)
 		child->onCommand(command, dt);
 }

@@ -16,12 +16,15 @@ World::World(sf::RenderWindow& window, FontHolder& fonts)
 , mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y)
 , mScrollSpeed(-50.f)
 , mPlayerAircraft(nullptr)
+, mCommandQueue()
+, mEnemySpawnPoints()
+, mSceneGraph()
 {
 	loadTextures();
 	buildScene();
 	mWorldView.setCenter(mSpawnPosition);
 
-	addEnemies();
+	//addEnemies();
 }
 
 void World::loadTextures() {
@@ -36,6 +39,7 @@ void World::loadTextures() {
 void World::buildScene() {
 	for (std::size_t i = 0; i < LayerCount; ++i)
 	{
+		Category::Type category = (i == Air) ? Category::SceneAirLayer : Category::None;
 		SceneNode::Ptr layer(new SceneNode());
 		mSceneLayers[i] = layer.get();
 		mSceneGraph.attachChild(std::move(layer));
@@ -147,7 +151,7 @@ void World::spawnEnemies()
 
 void World::addEnemies()
 {
-	addEnemy(Aircraft::Raptor, 0.f, 200.f);
+	//addEnemy(Aircraft::Raptor, 0.f, 200.f);
 	addEnemy(Aircraft::Avenger, -70.f, 400.f);
 	//...
 	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(),
