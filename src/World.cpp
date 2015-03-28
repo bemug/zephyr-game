@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <iostream>
 
 #include "SpriteNode.hpp"
 #include "CommandQueue.hpp"
@@ -24,7 +25,7 @@ World::World(sf::RenderWindow& window, FontHolder& fonts)
 	buildScene();
 	mWorldView.setCenter(mSpawnPosition);
 
-	//addEnemies();
+	addEnemies();
 }
 
 void World::loadTextures() {
@@ -40,7 +41,7 @@ void World::buildScene() {
 	for (std::size_t i = 0; i < LayerCount; ++i)
 	{
 		Category::Type category = (i == Air) ? Category::SceneAirLayer : Category::None;
-		SceneNode::Ptr layer(new SceneNode());
+		SceneNode::Ptr layer(new SceneNode(category));
 		mSceneLayers[i] = layer.get();
 		mSceneGraph.attachChild(std::move(layer));
 	}
@@ -84,8 +85,10 @@ void World::update(sf::Time dt)
 	mPlayerAircraft->setVelocity(0.f, 0.f);
 
 	// Forward commands to the scene graph
-	while (!mCommandQueue.isEmpty())
+	while (!mCommandQueue.isEmpty()) {
 		mSceneGraph.onCommand(mCommandQueue.pop(), dt);
+	}
+
 
 	sf::Vector2f velocity = mPlayerAircraft->getVelocity();
 	if (velocity.x != 0.f && velocity.y != 0.f)
@@ -151,7 +154,7 @@ void World::spawnEnemies()
 
 void World::addEnemies()
 {
-	//addEnemy(Aircraft::Raptor, 0.f, 200.f);
+	addEnemy(Aircraft::Raptor, 0.f, 200.f);
 	addEnemy(Aircraft::Avenger, -70.f, 400.f);
 	//...
 	std::sort(mEnemySpawnPoints.begin(), mEnemySpawnPoints.end(),

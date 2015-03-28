@@ -89,7 +89,6 @@ unsigned int SceneNode::getCategory() const
 void SceneNode::onCommand(const Command& command, sf::Time dt)
 {
 	if (command.category & getCategory()) {
-		std::cout << getCategory() << std::endl;
 		command.action(*this, dt);
 	}
 	for (Ptr& child : mChildren)
