@@ -16,7 +16,8 @@ namespace Textures
 		Eagle,
 		Raptor,
 		Avenger,
-		Bullet,
+		GreenLaser,
+		BlueLaser,
 		Missile,
 		Desert,
 	};
