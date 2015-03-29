@@ -86,6 +86,10 @@ void World::update(sf::Time dt)
 	mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
 	mPlayerAircraft->setVelocity(0.f, 0.f);
 
+	//destroyEntitiesOutsideView();
+	guideMissiles();
+
+
 	// Forward commands to the scene graph
 	while (!mCommandQueue.isEmpty()) {
 		mSceneGraph.onCommand(mCommandQueue.pop(), dt);
@@ -101,10 +105,12 @@ void World::update(sf::Time dt)
 
 	handleCollisions();
 
+	mSceneGraph.removeWrecks();
+
+	spawnEnemies();
+
 	// Regular update step
 	mSceneGraph.update(dt, mCommandQueue);
-
-	mSceneGraph.removeWrecks();
 
 	// Correct player position
 	sf::FloatRect viewBounds(
@@ -122,7 +128,6 @@ void World::update(sf::Time dt)
 			viewBounds.top + viewBounds.height - borderDistance);
 	mPlayerAircraft->setPosition(position);
 
-	spawnEnemies();
 }
 
 CommandQueue& World::getCommandQueue()
@@ -275,4 +280,19 @@ void World::handleCollisions()
 			projectile.destroy();
 		}
 	}
+}
+
+void World::destroyEntitiesOutsideView()
+{
+	Command command;
+	command.category = Category::Projectile
+		| Category::EnemyAircraft;
+	command.action = derivedAction<Entity>(
+			[this] (Entity& e, sf::Time)
+			{
+			if (!getBattlefieldBounds()
+					.intersects(e.getBoundingRect()))
+			e.destroy();
+			});
+	mCommandQueue.push(command);
 }

@@ -88,6 +88,10 @@ unsigned int Aircraft::getCategory() const
 
 void Aircraft::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
+	if (isDestroyed()) {
+		mIsMarkedForRemoval = true;
+		return;
+	}
 
 	checkProjectileLaunch(dt, commands);
 	updateMovementPattern(dt);

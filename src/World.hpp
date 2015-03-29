@@ -60,6 +60,7 @@ class World : private sf::NonCopyable
 		void addEnemies();
 		void addEnemy(Aircraft::Type type, float x, float y);
 		void handleCollisions();
+		void destroyEntitiesOutsideView();
 };
 
 bool matchesCategories(SceneNode::Pair& colliders,
