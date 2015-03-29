@@ -220,3 +220,8 @@ void Aircraft::increaseFireRate()
 	mFireRateLevel++;
 }
 
+sf::FloatRect Aircraft::getBoundingRect() const
+{
+	return getWorldTransform()
+		.transformRect(mSprite.getGlobalBounds());
+}

@@ -38,6 +38,7 @@ class Aircraft : public Entity
 		void collectMissiles(int nbMissiles);
 		void increaseSpread();
 		void increaseFireRate();
+		sf::FloatRect getBoundingRect() const;
 
 	private:
 		Type mType;

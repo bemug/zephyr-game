@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include <algorithm>
+#include <set>
 
 #include "SceneNode.hpp"
 #include "Category.hpp"
@@ -98,4 +99,38 @@ void SceneNode::onCommand(const Command& command, sf::Time dt)
 float distance(const SceneNode& lhs, const SceneNode& rhs)
 {
 	return length(lhs.getWorldPosition() - rhs.getWorldPosition());
+}
+
+bool collision(const SceneNode& lhs, const SceneNode& rhs)
+{
+	return lhs.getBoundingRect().intersects(rhs.getBoundingRect());
+}
+
+void SceneNode::checkNodeCollision(SceneNode& node, std::set<Pair>&
+		collisionPairs)
+{
+	if (this != &node && collision(*this, node)
+			&& !isDestroyed() && !node.isDestroyed())
+		collisionPairs.insert(std::minmax(this, &node));
+	for (Ptr& child : mChildren)
+		child->checkNodeCollision(node, collisionPairs);
+}
+
+void SceneNode::checkSceneCollision(SceneNode& sceneGraph,
+		std::set<Pair>& collisionPairs)
+{
+	checkNodeCollision(sceneGraph, collisionPairs);
+	for (Ptr& child : sceneGraph.mChildren)
+		checkSceneCollision(*child, collisionPairs);
+}
+
+bool SceneNode::isDestroyed() const
+{
+	// By default, scene node needn't be removed
+	return false;
+}
+
+sf::FloatRect SceneNode::getBoundingRect() const
+{
+	return sf::FloatRect();
 }

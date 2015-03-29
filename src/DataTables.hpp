@@ -39,5 +39,6 @@ struct PickupData
 
 std::vector<AircraftData> initializeAircraftData();
 std::vector<ProjectileData> initializeProjectileData();
+std::vector<PickupData> initializePickupData();
 
 #endif
