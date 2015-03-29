@@ -45,6 +45,7 @@ Aircraft::Aircraft(Type type, const TextureHolder& textures, const FontHolder& f
 , mFireCommand()
 , mMissileCommand()
 , mHealthDisplay(nullptr)
+, mIsMarkedForRemoval(false)
 {
 	//Center coordinates
 	sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -225,3 +226,9 @@ sf::FloatRect Aircraft::getBoundingRect() const
 	return getWorldTransform()
 		.transformRect(mSprite.getGlobalBounds());
 }
+
+bool Aircraft::isMarkedForRemoval() const
+{
+	return mIsMarkedForRemoval;
+}
+

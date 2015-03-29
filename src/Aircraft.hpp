@@ -39,6 +39,7 @@ class Aircraft : public Entity
 		void increaseSpread();
 		void increaseFireRate();
 		sf::FloatRect getBoundingRect() const;
+		virtual bool isMarkedForRemoval() const;
 
 	private:
 		Type mType;
@@ -54,6 +55,7 @@ class Aircraft : public Entity
 		int mFireRateLevel;
 		int mSpreadLevel;
 		int mMissileAmmo;
+		bool mIsMarkedForRemoval;
 };
 
 #endif

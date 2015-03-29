@@ -104,6 +104,8 @@ void World::update(sf::Time dt)
 	// Regular update step
 	mSceneGraph.update(dt, mCommandQueue);
 
+	mSceneGraph.removeWrecks();
+
 	// Correct player position
 	sf::FloatRect viewBounds(
 			mWorldView.getCenter() - mWorldView.getSize() / 2.f,

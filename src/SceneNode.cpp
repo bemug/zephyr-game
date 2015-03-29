@@ -147,3 +147,17 @@ void SceneNode::drawBoundingRect(sf::RenderTarget& target, sf::RenderStates) con
 	shape.setOutlineThickness(1.f);
 	target.draw(shape);
 }
+
+bool SceneNode::isMarkedForRemoval() const
+{
+	return isDestroyed();
+}
+
+void SceneNode::removeWrecks()
+{
+	auto wreckfieldBegin = std::remove_if(mChildren.begin(),
+			mChildren.end(), std::mem_fn(&SceneNode::isMarkedForRemoval));
+	mChildren.erase(wreckfieldBegin, mChildren.end());
+	std::for_each(mChildren.begin(), mChildren.end(),
+			std::mem_fn(&SceneNode::removeWrecks));
+}

@@ -30,6 +30,8 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 				std::set<Pair>& collisionPairs);
 		sf::Transform getWorldTransform() const;
 		virtual unsigned int getCategory() const;
+		virtual bool isMarkedForRemoval() const;
+		void removeWrecks();
 	private:
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 		virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
