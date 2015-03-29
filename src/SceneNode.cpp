@@ -44,6 +44,7 @@ void SceneNode::draw(sf::RenderTarget& target,
 	{
 		child->draw(target, states);
 	}
+	drawBoundingRect(target, states);
 }
 
 void SceneNode::drawCurrent(sf::RenderTarget&, sf::RenderStates) const
@@ -133,4 +134,16 @@ bool SceneNode::isDestroyed() const
 sf::FloatRect SceneNode::getBoundingRect() const
 {
 	return sf::FloatRect();
+}
+
+void SceneNode::drawBoundingRect(sf::RenderTarget& target, sf::RenderStates) const
+{
+	sf::FloatRect rect = getBoundingRect();
+	sf::RectangleShape shape;
+	shape.setPosition(sf::Vector2f(rect.left, rect.top));
+	shape.setSize(sf::Vector2f(rect.width, rect.height));
+	shape.setFillColor(sf::Color::Transparent);
+	shape.setOutlineColor(sf::Color::Red);
+	shape.setOutlineThickness(1.f);
+	target.draw(shape);
 }

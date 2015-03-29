@@ -36,6 +36,7 @@ class SceneNode : public sf::Transformable, public sf::Drawable, private sf::Non
 		virtual void updateCurrent(sf::Time, CommandQueue&);
 		virtual bool isDestroyed() const;
 		void updateChildren(sf::Time dt, CommandQueue& commands);
+		void drawBoundingRect(sf::RenderTarget& target, sf::RenderStates) const;
 	private:
 		std::vector<Ptr> mChildren;
 		SceneNode* mParent;
