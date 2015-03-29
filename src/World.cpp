@@ -86,7 +86,7 @@ void World::update(sf::Time dt)
 	mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
 	mPlayerAircraft->setVelocity(0.f, 0.f);
 
-	//destroyEntitiesOutsideView();
+	destroyEntitiesOutsideView();
 	guideMissiles();
 
 
@@ -290,9 +290,11 @@ void World::destroyEntitiesOutsideView()
 	command.action = derivedAction<Entity>(
 			[this] (Entity& e, sf::Time)
 			{
-			if (!getBattlefieldBounds()
-					.intersects(e.getBoundingRect()))
-			e.destroy();
+				if (!getBattlefieldBounds()
+						.intersects(e.getBoundingRect()))
+				{
+					e.destroy();
+				}
 			});
 	mCommandQueue.push(command);
 }

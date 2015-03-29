@@ -21,9 +21,9 @@ class Projectile : public Entity
 		bool isGuided() const;
 
 		virtual unsigned int getCategory() const;
-		virtual sf::FloatRect getBoundingRect() const;
 		float getMaxSpeed() const;
 		int getDamage() const;
+		virtual sf::FloatRect getBoundingRect() const;
 
 	private:
 		virtual void updateCurrent(sf::Time dt, CommandQueue& commands);

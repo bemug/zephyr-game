@@ -58,16 +58,16 @@ void Projectile::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) 
 	target.draw(mSprite, states);
 }
 
-sf::FloatRect Projectile::getBoundingRect() const
-{
-	sf::FloatRect ret(0.f, 0.f, 0.f, 0.f); //TODO srsly aha
-	return ret;
-}
-
 unsigned int Projectile::getCategory() const
 {
 	if (mType == EnemyBullet)
 		return Category::EnemyProjectile;
 	else
 		return Category::AlliedProjectile;
+}
+
+sf::FloatRect Projectile::getBoundingRect() const
+{
+	return getWorldTransform()
+		.transformRect(mSprite.getGlobalBounds());
 }
