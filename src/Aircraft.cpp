@@ -204,3 +204,19 @@ void Aircraft::launchMissile()
 		--mMissileAmmo;
 	}
 }
+
+void Aircraft::collectMissiles(int nbMissiles)
+{
+	mMissileAmmo += nbMissiles;
+}
+
+void Aircraft::increaseSpread()
+{
+	mSpreadLevel++;
+}
+
+void Aircraft::increaseFireRate()
+{
+	mFireRateLevel++;
+}
+

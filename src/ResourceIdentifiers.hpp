@@ -20,6 +20,10 @@ namespace Textures
 		BlueLaser,
 		Missile,
 		Desert,
+		HealthRefill,
+		MissileRefill,
+		FireSpread,
+		FireRate,
 	};
 }
 

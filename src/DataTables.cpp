@@ -1,8 +1,12 @@
 #include "DataTables.hpp"
 
 #include "Aircraft.hpp"
+#include "Pickup.hpp"
 
 #include <vector>
+
+// For std::bind() placeholders _1, _2, ...
+using namespace std::placeholders;
 
 std::vector<AircraftData> initializeAircraftData()
 {
@@ -60,4 +64,22 @@ Direction::Direction(float angle, float distance)
 : angle(angle)
 , distance(distance)
 {
+}
+
+std::vector<PickupData> initializePickupData()
+{
+	std::vector<PickupData> data(Pickup::TypeCount);
+	data[Pickup::HealthRefill].texture = Textures::HealthRefill;
+	data[Pickup::HealthRefill].action
+		= std::bind(&Aircraft::repair, _1, 25);
+	data[Pickup::MissileRefill].texture = Textures::MissileRefill;
+	data[Pickup::MissileRefill].action
+		= std::bind(&Aircraft::collectMissiles, _1, 3);
+	data[Pickup::FireSpread].texture = Textures::FireSpread;
+	data[Pickup::FireSpread].action
+		= std::bind(&Aircraft::increaseSpread, _1);
+	data[Pickup::FireRate].texture = Textures::FireRate;
+	data[Pickup::FireRate].action
+		= std::bind(&Aircraft::increaseFireRate, _1);
+	return data;
 }

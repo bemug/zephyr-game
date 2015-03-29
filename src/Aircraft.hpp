@@ -35,6 +35,9 @@ class Aircraft : public Entity
 		void fire();
 		bool isAllied() const;
 		void launchMissile();
+		void collectMissiles(int nbMissiles);
+		void increaseSpread();
+		void increaseFireRate();
 
 	private:
 		Type mType;
