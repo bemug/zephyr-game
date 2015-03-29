@@ -8,6 +8,7 @@
 #include "SpriteNode.hpp"
 #include "CommandQueue.hpp"
 #include "Category.hpp"
+#include "Pickup.hpp"
 
 World::World(sf::RenderWindow& window, FontHolder& fonts)
 : mWindow(window)
@@ -97,6 +98,8 @@ void World::update(sf::Time dt)
 		mPlayerAircraft->setVelocity(velocity / std::sqrt(2.f));
 	}
 	mPlayerAircraft->accelerate(0.f, mScrollSpeed);
+
+	handleCollisions();
 
 	// Regular update step
 	mSceneGraph.update(dt, mCommandQueue);
@@ -216,3 +219,58 @@ void World::guideMissiles()
 	mActiveEnemies.clear();
 }
 
+bool matchesCategories(SceneNode::Pair& colliders,
+		Category::Type type1, Category::Type type2)
+{
+	unsigned int category1 = colliders.first->getCategory();
+	unsigned int category2 = colliders.second->getCategory();
+	if (type1 & category1 && type2 & category2)
+	{
+		return true;
+	}
+	else if (type1 & category2 && type2 & category1)
+	{
+		std::swap(colliders.first, colliders.second);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void World::handleCollisions()
+{
+	std::set<SceneNode::Pair> collisionPairs;
+	mSceneGraph.checkSceneCollision(mSceneGraph, collisionPairs);
+	for(SceneNode::Pair pair : collisionPairs)
+	{
+		if (matchesCategories(pair,
+					Category::PlayerAircraft, Category::EnemyAircraft))
+		{
+			auto& player = static_cast<Aircraft&>(*pair.first);
+			auto& enemy = static_cast<Aircraft&>(*pair.second);
+			player.damage(enemy.getHitpoints());
+			enemy.destroy();
+		}
+		else if (matchesCategories(pair,
+					Category::PlayerAircraft, Category::Pickup))
+		{
+			auto& player = static_cast<Aircraft&>(*pair.first);
+			auto& pickup = static_cast<Pickup&>(*pair.second);
+			pickup.apply(player);
+			pickup.destroy();
+		}
+		else if (matchesCategories(pair,
+					Category::EnemyAircraft, Category::AlliedProjectile)
+				|| matchesCategories(pair,
+					Category::PlayerAircraft, Category::EnemyProjectile))
+		{
+			auto& aircraft = static_cast<Aircraft&>(*pair.first);
+			auto& projectile = static_cast<Projectile&>(*pair.second);
+			//aircraft.damage(projectile.getDamage());
+			aircraft.damage(1);
+			projectile.destroy();
+		}
+	}
+}

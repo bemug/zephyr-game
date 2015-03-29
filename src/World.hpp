@@ -59,6 +59,10 @@ class World : private sf::NonCopyable
 		void spawnEnemies();
 		void addEnemies();
 		void addEnemy(Aircraft::Type type, float x, float y);
+		void handleCollisions();
 };
+
+bool matchesCategories(SceneNode::Pair& colliders,
+		Category::Type type1, Category::Type type2);
 
 #endif
