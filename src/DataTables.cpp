@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "DataTables.hpp"
 
 #include "Aircraft.hpp"
@@ -82,4 +84,8 @@ std::vector<PickupData> initializePickupData()
 	data[Pickup::FireRate].action
 		= std::bind(&Aircraft::increaseFireRate, _1);
 	return data;
+}
+
+std::vector<ParticleData> initializeParticleData() {
+	std::cout << "TODO initialize particle data" << std::endl;
 }
