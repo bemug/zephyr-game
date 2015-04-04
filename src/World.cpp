@@ -36,7 +36,7 @@ void World::loadTextures() {
 	mTextures.load(Textures::Desert, "media/desert.jpg");
 	mTextures.load(Textures::BlueLaser, "media/laserBlue07.png");
 	mTextures.load(Textures::GreenLaser, "media/laserGreen07.png");
-	mTextures.load(Textures::Missile, "media/playerShip2_green.png");
+	mTextures.load(Textures::Missile, "media/missile.png");
 }
 
 void World::buildScene() {
