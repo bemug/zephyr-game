@@ -9,6 +9,7 @@
 #include "CommandQueue.hpp"
 #include "Category.hpp"
 #include "Pickup.hpp"
+#include "ParticleNode.hpp"
 
 World::World(sf::RenderWindow& window, FontHolder& fonts)
 : mWindow(window)
@@ -37,6 +38,7 @@ void World::loadTextures() {
 	mTextures.load(Textures::BlueLaser, "media/laserBlue07.png");
 	mTextures.load(Textures::GreenLaser, "media/laserGreen07.png");
 	mTextures.load(Textures::Missile, "media/missile.png");
+	mTextures.load(Textures::Particle, "media/missile.png");
 }
 
 void World::buildScene() {
@@ -72,6 +74,11 @@ void World::buildScene() {
 	rightEscort->setPosition(80.f, 50.f);
 	mPlayerAircraft->attachChild(std::move(rightEscort));
 	*/
+
+	//Particles
+	std::unique_ptr<ParticleNode> smokeNode(
+		new ParticleNode(Particle::Smoke, mTextures));
+	mSceneLayers[LowerAir]->attachChild(std::move(smokeNode));
 }
 
 void World::draw()

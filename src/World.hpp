@@ -35,6 +35,7 @@ class World : private sf::NonCopyable
 		enum Layer
 		{
 			Background,
+			LowerAir,
 			Air,
 			LayerCount //hack
 		};

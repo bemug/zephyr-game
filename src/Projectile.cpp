@@ -6,6 +6,8 @@
 #include "Utility.hpp"
 #include "ResourceHolder.hpp"
 #include "Category.hpp"
+#include "Particle.hpp"
+#include "EmitterNode.hpp"
 
 namespace
 {
@@ -19,6 +21,14 @@ Projectile::Projectile(Type type, const TextureHolder& textures)
 , mTargetDirection()
 {
 	centerOrigin(mSprite);
+	//Particles
+	if (isGuided()) // if this projectile is a missile
+	{
+		std::unique_ptr<EmitterNode> smoke(
+				new EmitterNode(Particle::Smoke));
+		smoke->setPosition(0.f, getBoundingRect().height / 2.f);
+		attachChild(std::move(smoke));
+	}
 }
 
 bool Projectile::isGuided() const

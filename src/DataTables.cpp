@@ -4,6 +4,7 @@
 
 #include "Aircraft.hpp"
 #include "Pickup.hpp"
+#include "Particle.hpp"
 
 #include <vector>
 
@@ -86,6 +87,12 @@ std::vector<PickupData> initializePickupData()
 	return data;
 }
 
-std::vector<ParticleData> initializeParticleData() {
-	std::cout << "TODO initialize particle data" << std::endl;
+std::vector<ParticleData> initializeParticleData()
+{
+	std::vector<ParticleData> data(Particle::ParticleCount);
+
+	data[Particle::Smoke].color = sf::Color(255,255,0);
+	data[Particle::Smoke].lifetime = sf::seconds(4.f);
+
+	return data;
 }
