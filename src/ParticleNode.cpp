@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "ParticleNode.hpp"
 #include "DataTables.hpp"
 #include "CommandQueue.hpp"
@@ -62,9 +64,9 @@ void ParticleNode::computeVertices() const
 			/ Table[mType].lifetime.asSeconds();
 		c.a = static_cast<sf::Uint8>(255 * std::max(ratio, 0.f));
 		addVertex(pos.x - half.x, pos.y - half.y, 0.f, 0.f, c);
-		addVertex(pos.x + half.x, pos.y - half.y, 0.f, 0.f, c);
-		addVertex(pos.x + half.x, pos.y + half.y, 0.f, 0.f, c);
-		addVertex(pos.x - half.x, pos.y + half.y, 0.f, 0.f, c);
+		addVertex(pos.x + half.x, pos.y - half.y, size.x, 0.f, c);
+		addVertex(pos.x + half.x, pos.y + half.y, size.x, size.y, c);
+		addVertex(pos.x - half.x, pos.y + half.y, 0.f, size.y, c);
 	}
 }
 

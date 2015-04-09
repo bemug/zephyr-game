@@ -91,7 +91,7 @@ std::vector<ParticleData> initializeParticleData()
 {
 	std::vector<ParticleData> data(Particle::ParticleCount);
 
-	data[Particle::Smoke].color = sf::Color(255,255,0);
+	data[Particle::Smoke].color = sf::Color(255,255,255);
 	data[Particle::Smoke].lifetime = sf::seconds(4.f);
 
 	return data;

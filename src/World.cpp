@@ -38,13 +38,13 @@ void World::loadTextures() {
 	mTextures.load(Textures::BlueLaser, "media/laserBlue07.png");
 	mTextures.load(Textures::GreenLaser, "media/laserGreen07.png");
 	mTextures.load(Textures::Missile, "media/missile.png");
-	mTextures.load(Textures::Particle, "media/missile.png");
+	mTextures.load(Textures::Particle, "media/smoke.png");
 }
 
 void World::buildScene() {
 	for (std::size_t i = 0; i < LayerCount; ++i)
 	{
-		Category::Type category = (i == Air) ? Category::SceneAirLayer : Category::None;
+		Category::Type category = (i == LowerAir) ? Category::SceneAirLayer : Category::None;
 		SceneNode::Ptr layer(new SceneNode(category));
 		mSceneLayers[i] = layer.get();
 		mSceneGraph.attachChild(std::move(layer));
