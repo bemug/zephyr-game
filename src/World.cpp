@@ -39,6 +39,7 @@ void World::loadTextures() {
 	mTextures.load(Textures::GreenLaser, "media/laserGreen07.png");
 	mTextures.load(Textures::Missile, "media/missile.png");
 	mTextures.load(Textures::Particle, "media/smoke.png");
+	mTextures.load(Textures::Explosion, "media/explosion.png");
 }
 
 void World::buildScene() {

@@ -4,8 +4,11 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 
+#include "Animation.hpp"
+
 void centerOrigin(sf::Sprite& sprite);
 void centerOrigin(sf::Text& text);
+void centerOrigin(Animation& animation);
 float toRadian(float degree);
 sf::Vector2f unitVector(sf::Vector2f vector);
 float length(sf::Vector2f vector);

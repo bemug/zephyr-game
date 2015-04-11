@@ -24,7 +24,8 @@ namespace Textures
 		MissileRefill,
 		FireSpread,
 		FireRate,
-		Particle
+		Particle,
+		Explosion,
 	};
 }
 

@@ -8,6 +8,7 @@
 #include "ResourceHolder.hpp"
 #include "CommandQueue.hpp"
 #include "Projectile.hpp"
+#include "Animation.hpp"
 
 class Aircraft : public Entity
 {
@@ -56,6 +57,8 @@ class Aircraft : public Entity
 		int mSpreadLevel;
 		int mMissileAmmo;
 		bool mIsMarkedForRemoval;
+		Animation mExplosion;
+		bool mShowExplosion;
 };
 
 #endif

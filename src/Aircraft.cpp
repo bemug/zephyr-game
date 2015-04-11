@@ -46,6 +46,8 @@ Aircraft::Aircraft(Type type, const TextureHolder& textures, const FontHolder& f
 , mMissileCommand()
 , mHealthDisplay(nullptr)
 , mIsMarkedForRemoval(false)
+, mShowExplosion(true)
+, mExplosion(textures.get(Textures::Explosion))
 {
 	//Center coordinates
 	sf::FloatRect bounds = mSprite.getLocalBounds();
@@ -68,11 +70,20 @@ Aircraft::Aircraft(Type type, const TextureHolder& textures, const FontHolder& f
 			createProjectile(node, Projectile::Missile, 0.f, 0.5f,
 					textures);
 		};
+
+	mExplosion.setFrameSize(sf::Vector2i(256, 256));
+	mExplosion.setNumFrames(16);
+	mExplosion.setDuration(sf::seconds(1));
+
+	centerOrigin(mExplosion);
 }
 
 void Aircraft::drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(mSprite, states);
+	if (isDestroyed() && mShowExplosion)
+		target.draw(mExplosion, states);
+	else
+		target.draw(mSprite, states);
 }
 
 unsigned int Aircraft::getCategory() const
@@ -89,7 +100,8 @@ unsigned int Aircraft::getCategory() const
 void Aircraft::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
 	if (isDestroyed()) {
-		mIsMarkedForRemoval = true;
+		//checkPickupDrop(commands); //TODO
+		mExplosion.update(dt);
 		return;
 	}
 
@@ -233,6 +245,7 @@ sf::FloatRect Aircraft::getBoundingRect() const
 
 bool Aircraft::isMarkedForRemoval() const
 {
-	return mIsMarkedForRemoval;
+	return isDestroyed()
+		&& (mExplosion.isFinished() || !mShowExplosion);
 }
 
