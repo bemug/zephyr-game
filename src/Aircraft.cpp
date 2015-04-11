@@ -101,6 +101,7 @@ void Aircraft::updateCurrent(sf::Time dt, CommandQueue& commands)
 {
 	if (isDestroyed()) {
 		//checkPickupDrop(commands); //TODO
+		mHealthDisplay->setString("");
 		mExplosion.update(dt);
 		return;
 	}
