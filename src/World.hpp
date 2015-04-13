@@ -9,11 +9,12 @@
 #include "SceneNode.hpp"
 #include "Aircraft.hpp"
 #include "CommandQueue.hpp"
+#include "BloomEffect.hpp"
 
 class World : private sf::NonCopyable
 {
 	public:
-		explicit World(sf::RenderWindow& window, FontHolder& fonts);
+		explicit World(sf::RenderTarget& outputTarget, FontHolder& fonts);
 		void update(sf::Time dt);
 		void draw();
 		CommandQueue& getCommandQueue();
@@ -41,7 +42,7 @@ class World : private sf::NonCopyable
 		};
 
 	private:
-		sf::RenderWindow& mWindow;
+		sf::RenderTarget& mTarget;
 		sf::View mWorldView;
 		TextureHolder mTextures;
 		FontHolder& mFonts;
@@ -55,6 +56,8 @@ class World : private sf::NonCopyable
 		std::vector<SpawnPoint> mEnemySpawnPoints;
 		sf::FloatRect getViewBounds() const;
 		std::vector<Aircraft*> mActiveEnemies;
+		sf::RenderTexture mSceneTexture;
+		BloomEffect mBloomEffect;
 		
 		sf::FloatRect getBattlefieldBounds();
 		void spawnEnemies();

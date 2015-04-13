@@ -10,11 +10,12 @@
 #include "Category.hpp"
 #include "Pickup.hpp"
 #include "ParticleNode.hpp"
+#include "PostEffect.hpp"
 
-World::World(sf::RenderWindow& window, FontHolder& fonts)
-: mWindow(window)
+World::World(sf::RenderTarget& outputTarget, FontHolder& fonts)
+: mTarget(outputTarget)
 , mFonts(fonts)
-, mWorldView(window.getDefaultView())
+, mWorldView(outputTarget.getDefaultView())
 , mWorldBounds(0.f, 0.f, mWorldView.getSize().x, 2000.f)
 , mSpawnPosition(mWorldView.getSize().x / 2.f, mWorldBounds.height - mWorldView.getSize().y)
 , mScrollSpeed(-50.f)
@@ -22,7 +23,11 @@ World::World(sf::RenderWindow& window, FontHolder& fonts)
 , mCommandQueue()
 , mEnemySpawnPoints()
 , mSceneGraph()
+, mSceneTexture()
+, mBloomEffect()
 {
+	mSceneTexture.create(mTarget.getSize().x, mTarget.getSize().y);
+
 	loadTextures();
 	buildScene();
 	mWorldView.setCenter(mSpawnPosition);
@@ -84,9 +89,19 @@ void World::buildScene() {
 
 void World::draw()
 {
-	//Delegate to scene graph
-	mWindow.setView(mWorldView);
-	mWindow.draw(mSceneGraph);
+	if (PostEffect::isSupported())
+	{
+		mSceneTexture.clear();
+		mSceneTexture.setView(mWorldView);
+		mSceneTexture.draw(mSceneGraph);
+		mSceneTexture.display();
+		mBloomEffect.apply(mSceneTexture, mTarget);
+	}
+	else
+	{
+		mTarget.setView(mWorldView);
+		mTarget.draw(mSceneGraph);
+	}
 }
 
 void World::update(sf::Time dt)
