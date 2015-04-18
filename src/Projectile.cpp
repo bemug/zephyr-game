@@ -81,3 +81,8 @@ sf::FloatRect Projectile::getBoundingRect() const
 	return getWorldTransform()
 		.transformRect(mSprite.getGlobalBounds());
 }
+
+int Projectile::getDamage() const
+{
+	return Table[mType].damage;
+}

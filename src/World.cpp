@@ -298,8 +298,7 @@ void World::handleCollisions()
 		{
 			auto& aircraft = static_cast<Aircraft&>(*pair.first);
 			auto& projectile = static_cast<Projectile&>(*pair.second);
-			//aircraft.damage(projectile.getDamage());
-			aircraft.damage(1);
+			aircraft.damage(projectile.getDamage());
 			projectile.destroy();
 		}
 	}
