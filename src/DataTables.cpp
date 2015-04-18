@@ -16,9 +16,9 @@ std::vector<AircraftData> initializeAircraftData()
 	std::vector<AircraftData> data(Aircraft::TypeCount);
 
 	data[Aircraft::Eagle].hitpoints = 100;
-	data[Aircraft::Eagle].speed = 200.f;
+	data[Aircraft::Eagle].speed = 800.f;
 	data[Aircraft::Eagle].texture = Textures::Eagle;
-	data[Aircraft::Eagle].fireInterval = sf::seconds(1);
+	data[Aircraft::Eagle].fireInterval = sf::milliseconds(100);
 
 	data[Aircraft::Raptor].hitpoints = 20;
 	data[Aircraft::Raptor].speed = 80.f;
@@ -49,7 +49,7 @@ std::vector<ProjectileData> initializeProjectileData()
 	std::vector<ProjectileData> data(Projectile::TypeCount);
 
 	data[Projectile::AlliedBullet].damage = 10;
-	data[Projectile::AlliedBullet].speed = 300.f;
+	data[Projectile::AlliedBullet].speed = 1000.f;
 	data[Projectile::AlliedBullet].texture = Textures::BlueLaser;
 
 	data[Projectile::EnemyBullet].damage = 10;
