@@ -15,7 +15,7 @@
 #include "PauseState.hpp"
 
 Game::Game()
-	: mWindow(sf::VideoMode(1280, 720), "Zephyr")
+	: mWindow(sf::VideoMode(1024, 576), "Zephyr")
 	, mIsMovingUp(false)
 	, mIsMovingDown(false)
 	, mIsMovingLeft(false)
