@@ -4,6 +4,7 @@
 #include <cmath>
 #include <limits>
 #include <iostream>
+#include <cstdlib>
 
 #include "SpriteNode.hpp"
 #include "CommandQueue.hpp"
@@ -168,11 +169,21 @@ sf::FloatRect World::getBattlefieldBounds() {
 	sf::FloatRect bounds = getViewBounds();
 	bounds.top -= 100.f;
 	bounds.height += 100.f;
-	return bounds;	
+	return bounds;
+}
+
+void World::addRandomEnnemy()
+{
+	if (rand() % 100 < 5)
+	{
+		addEnemy(Aircraft::Raptor, 0.f, mSpawnPosition.y - getViewBounds().top);
+	}
 }
 
 void World::spawnEnemies()
 {
+	addRandomEnnemy();
+
 	while (!mEnemySpawnPoints.empty()
 			&& mEnemySpawnPoints.back().y
 			> getBattlefieldBounds().top)
