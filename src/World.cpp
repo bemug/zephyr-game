@@ -176,7 +176,9 @@ void World::addRandomEnnemy()
 {
 	if (rand() % 100 < 5)
 	{
-		addEnemy(Aircraft::Raptor, 0.f, mSpawnPosition.y - getViewBounds().top);
+		addEnemy(Aircraft::Raptor,
+				(rand() % (int) mWorldView.getSize().x) - mSpawnPosition.x,
+				mSpawnPosition.y - getViewBounds().top);
 	}
 }
 
